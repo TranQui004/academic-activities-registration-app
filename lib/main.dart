@@ -1,4 +1,5 @@
 import 'package:doan/views/login.dart';
+import 'package:doan/views/chitietsukien.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: const LoginView(),
+      home: const EventDetail(),
     );
   }
 }
