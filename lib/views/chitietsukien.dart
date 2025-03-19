@@ -8,23 +8,31 @@ class EventDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Thông tin sự kiện',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: AppColors.primary,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
+      appBar: AppBarBase(titleText: 'Thông tin sự kiện'),
+
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(
+              height: 50,
+                child: TextButton(onPressed: (){}, 
+                  child: Padding(padding: EdgeInsets.only(left: 12),
+                    child: Row(
+                      children: [
+                        Icon(FontAwesomeIcons.arrowLeft, color: AppColors.textBlack, size: 18,),
+                        SizedBox(width: 12,),
+                        Text('Trở lại', 
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: AppColors.textBlack,
+                          ),
+                        ),
+                      ],
+                    ),
+                )
+              ),
+            ),
             Align(
               alignment: Alignment.topCenter,
               child: Container(
@@ -125,14 +133,14 @@ class EventDetail extends StatelessWidget {
                             'Số lượng sinh viên tham gia: 200',
                             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                           ),
-                          Text(
-                            'Đã đăng ký 123/200',
-                            style: TextStyle(fontSize: 16),
-                          ),
                         ],
                       ),
                     ],
                   ),
+                  
+                  const SizedBox(height: 10),
+                  LineProgressWidget(valueCurrent: 123, valueMax: 200),
+
                   const SizedBox(height: 20),
                   const Text(
                     'MÔ TẢ: HUIT OPEN DAY 2025 | RỰC RỠ CÙNG GÁNH HÁT LÔ TÔ HƯƠNG NAM! ✨🎉',
@@ -179,6 +187,7 @@ class EventDetail extends StatelessWidget {
                     style: TextStyle(fontSize: 16),
                     textAlign: TextAlign.justify,
                   ),
+                  const SizedBox(height: 100),
                 ],
               ),
             ),
@@ -186,15 +195,15 @@ class EventDetail extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          // Add your registration logic here
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Đã đăng ký sự kiện!')),
-          );
-        },
-        label: const Text('Đăng Ký', style: TextStyle(color: AppColors.textWhite,)),        
+        onPressed: () {},
+        label: const Text('Đăng Ký', style: TextStyle(
+          color: AppColors.textWhite,
+          fontSize: 18,
+        )),        
         backgroundColor: AppColors.primary,
       ),
+
+      drawer: DrawerBase(),
     );
   }
 }

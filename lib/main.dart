@@ -1,4 +1,6 @@
 
+import 'package:doan/views/chitietsukien.dart';
+
 import 'views/home_page_sv.dart';
 import 'views/login.dart';
 import 'views/student_info.dart';
@@ -7,7 +9,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 void main() {
-  runApp(const StudentInfoApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -18,7 +20,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: HomePageSv(),
+      home: EventDetail(),
     );
   }
 }
@@ -222,5 +224,49 @@ class CircleProgressWidget extends StatelessWidget{
         ),
       ],
     );
+  }
+}
+
+class LineProgressWidget extends StatelessWidget{
+  final int valueCurrent;
+  final int valueMax;
+
+  const LineProgressWidget({
+    Key? key,
+    required this.valueCurrent,
+    required this.valueMax,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(width: double.infinity, child: Stack(
+      alignment: Alignment.center,
+      children: [
+        Positioned.fill(
+          child: LinearProgressIndicator(
+            borderRadius: BorderRadius.circular(12),
+            value: 1.0,
+            minHeight: 6,
+            valueColor: AlwaysStoppedAnimation(const Color.fromARGB(255, 235, 235, 235)),
+          ),
+        ),
+
+        Positioned.fill(
+          child: LinearProgressIndicator(
+            borderRadius: BorderRadius.circular(12),
+            value: valueCurrent / valueMax,
+            minHeight: 6,
+            valueColor: AlwaysStoppedAnimation(const Color.fromARGB(255, 149, 228, 81)),
+          ),
+        ),
+
+        Text('Số lượng đã đăng ký $valueCurrent / $valueMax',
+          style: TextStyle(
+            color: AppColors.textBlack,
+            fontSize: 18,
+          ),
+        ),
+      ],
+    ),);
   }
 }
