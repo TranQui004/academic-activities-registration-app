@@ -27,6 +27,14 @@ class AppColors {
   static const Color primary = Color.fromARGB(255, 0, 91, 184);
   static const Color textBlack = Color.fromARGB(255, 50, 50, 50);
   static const Color textWhite = Color.fromARGB(255, 255, 255, 255);
+  static const Color baseColor = Color.fromARGB(255, 207, 226, 255);
+
+  static const BoxShadow boxShadow = BoxShadow(
+    color: Color.fromARGB(255, 140, 140, 140),
+    blurRadius: 10,
+    spreadRadius: 2,
+    offset: Offset(2, 2)
+  );
 }
 
 class AppBarBase extends StatelessWidget implements PreferredSizeWidget{
@@ -58,7 +66,7 @@ class DrawerBase extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: const Color.fromARGB(255, 215, 215, 215),
+      backgroundColor: AppColors.baseColor,
       child: Stack(
         children: [
           Column(
@@ -169,6 +177,50 @@ class DrawerBase extends StatelessWidget{
           ),
         ],
       ),
+    );
+  }
+}
+
+class CircleProgressWidget extends StatelessWidget{
+  final int valueCurrent;
+  final int valueMax;
+
+  const CircleProgressWidget({
+    Key? key,
+    required this.valueCurrent,
+    required this.valueMax,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        SizedBox(
+          height: 100, width: 100,
+          child: CircularProgressIndicator(
+            value: 1.0,
+            strokeWidth: 16,
+            valueColor: AlwaysStoppedAnimation(const Color.fromARGB(255, 235, 235, 235)),
+          ),
+        ),
+
+        SizedBox(
+          height: 100, width: 100,
+          child: CircularProgressIndicator(
+            value: valueCurrent / valueMax,
+            strokeWidth: 22,
+            valueColor: AlwaysStoppedAnimation(const Color.fromARGB(255, 149, 228, 81)),
+          ),
+        ),
+
+        Text('$valueCurrent / $valueMax',
+          style: TextStyle(
+            color: AppColors.textBlack,
+            fontSize: 18,
+          ),
+        ),
+      ],
     );
   }
 }
