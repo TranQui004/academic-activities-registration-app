@@ -3,42 +3,17 @@ import 'package:doan/main.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class StudentInfoApp extends StatelessWidget {
-  const StudentInfoApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: StudentInfoScreen(),
-    );
-  }
-}
-
 class StudentInfoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Thông tin sinh viên",
-          style: TextStyle(
-            color: AppColors.textBlack,
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        backgroundColor: AppColors.primary,
-      ),
+      appBar: AppBarBase(titleText: 'Thông tin sinh viên'),
+
       body: Stack(
         children: [
           Container(
             decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Color(0xFF1E88E5), Color(0xFF64B5F6)],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
+              color: AppColors.baseColor,
             ),
           ),
           Padding(
@@ -46,9 +21,21 @@ class StudentInfoScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                CircleAvatar(
-                  radius: 50,
-                  backgroundImage: AssetImage('images/nvt.png'),
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      height: 120, width: 120,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                    ),
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundImage: AssetImage('assets/images/nvt.png'),
+                    ),
+                  ]
                 ),
                 const SizedBox(height: 16),
                 Text(
@@ -68,15 +55,8 @@ class StudentInfoScreen extends StatelessWidget {
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Colors.transparent,
                       borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black26,
-                          blurRadius: 10,
-                          offset: Offset(0, 4),
-                        ),
-                      ],
                     ),
                     child: ListView(
                       children: [
@@ -149,6 +129,8 @@ class StudentInfoScreen extends StatelessWidget {
           ),
         ],
       ),
+
+      drawer: DrawerBase(),
     );
   }
 
