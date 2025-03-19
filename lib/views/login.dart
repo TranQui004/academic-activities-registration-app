@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:ui';
 import 'package:doan/main.dart';
 import 'package:flutter/material.dart';
@@ -105,7 +104,7 @@ class LoginView extends StatelessWidget{
                                       ),
                                     ),
                                   ),
-                                  
+
                                   ElevatedButton(onPressed: (){},
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: AppColors.primary,
