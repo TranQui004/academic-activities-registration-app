@@ -1,11 +1,13 @@
-import 'package:doan/views/home_page_sv.dart';
-import 'package:doan/views/login.dart';
+
+import 'views/home_page_sv.dart';
+import 'views/login.dart';
+import 'views/student_info.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 void main() {
-  runApp(const MyApp());
+  runApp(const StudentInfoApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -21,7 +23,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class AppColors{
+class AppColors {
   static const Color primary = Color.fromARGB(255, 0, 91, 184);
   static const Color textBlack = Color.fromARGB(255, 50, 50, 50);
   static const Color textWhite = Color.fromARGB(255, 255, 255, 255);
