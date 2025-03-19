@@ -16,21 +16,28 @@ class EventDetail extends StatelessWidget {
           children: [
             SizedBox(
               height: 50,
-                child: TextButton(onPressed: (){}, 
-                  child: Padding(padding: EdgeInsets.only(left: 12),
-                    child: Row(
-                      children: [
-                        Icon(FontAwesomeIcons.arrowLeft, color: AppColors.textBlack, size: 18,),
-                        SizedBox(width: 12,),
-                        Text('Trở lại', 
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: AppColors.textBlack,
-                          ),
+              child: TextButton(
+                onPressed: () {},
+                child: Padding(
+                  padding: EdgeInsets.only(left: 12),
+                  child: Row(
+                    children: [
+                      Icon(
+                        FontAwesomeIcons.arrowLeft,
+                        color: AppColors.textBlack,
+                        size: 18,
+                      ),
+                      SizedBox(width: 12),
+                      Text(
+                        'Trở lại',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: AppColors.textBlack,
                         ),
-                      ],
-                    ),
-                )
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
             Align(
@@ -39,7 +46,9 @@ class EventDetail extends StatelessWidget {
                 height: 300,
                 decoration: BoxDecoration(
                   image: const DecorationImage(
-                    image: AssetImage('assets/images/events_images/huit_open_day.jpg'),
+                    image: AssetImage(
+                      'assets/images/events_images/huit_open_day.jpg',
+                    ),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -71,7 +80,10 @@ class EventDetail extends StatelessWidget {
                         children: [
                           Text(
                             'Thời gian: 16/03/2025',
-                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           Text(
                             '7:00 AM - 5:00 PM',
@@ -92,7 +104,10 @@ class EventDetail extends StatelessWidget {
                         children: [
                           Text(
                             'Địa điểm: Trường đại học Công thương - HUIT',
-                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           Text(
                             '140 Lê Trọng Tấn, Tây Thạnh, Tân Phú, TP. HCM',
@@ -113,9 +128,11 @@ class EventDetail extends StatelessWidget {
                         children: [
                           Text(
                             'Đối tượng tham gia: Học sinh - sinh viên',
-                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                          
                         ],
                       ),
                     ],
@@ -131,13 +148,16 @@ class EventDetail extends StatelessWidget {
                         children: [
                           Text(
                             'Số lượng sinh viên tham gia: 200',
-                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ],
                       ),
                     ],
                   ),
-                  
+
                   const SizedBox(height: 10),
                   LineProgressWidget(valueCurrent: 123, valueMax: 200),
 
@@ -196,10 +216,10 @@ class EventDetail extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {},
-        label: const Text('Đăng Ký', style: TextStyle(
-          color: AppColors.textWhite,
-          fontSize: 18,
-        )),        
+        label: const Text(
+          'Đăng Ký',
+          style: TextStyle(color: AppColors.textWhite, fontSize: 18),
+        ),
         backgroundColor: AppColors.primary,
       ),
 
