@@ -1,5 +1,6 @@
 import 'package:doan/views/chitietsukien.dart';
 import 'package:doan/views/creating_event.dart';
+import 'package:doan/views/thongtindiendanh.dart';
 import 'package:doan/views/xacnhandangky.dart';
 import 'views/home_page_sv.dart';
 import 'views/login.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: CreatingEvent(),
+      home: ThongTinSVSauQuet(),
     );
   }
 }
