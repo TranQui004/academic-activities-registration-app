@@ -3,6 +3,7 @@ import 'package:doan/views/creating_event.dart';
 import 'package:doan/views/thongtindiendanh.dart';
 import 'package:doan/views/xacnhandangky.dart';
 import 'views/home_page_sv.dart';
+import 'views/qr_scanner.dart';
 import 'views/login.dart';
 import 'views/student_info.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: ThongTinSVSauQuet(),
+      home: QRScanner(),
     );
   }
 }
