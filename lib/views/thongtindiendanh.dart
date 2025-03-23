@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:doan/main.dart';
 
 class ThongTinSVSauQuet extends StatelessWidget {
+  const ThongTinSVSauQuet({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

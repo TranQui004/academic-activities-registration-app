@@ -1,3 +1,4 @@
+import 'package:doan/main.dart';
 import 'package:flutter/material.dart';
 
 class EventManagementScreen extends StatelessWidget {
@@ -5,41 +6,14 @@ class EventManagementScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Quản lý hoạt động',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        fontFamily: 'Roboto',
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue,
-          primary: const Color(0xFF1565C0),
-        ),
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            "Quản lý hoạt động",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          backgroundColor: const Color(0xFF0D47A1),
-          elevation: 4,
-          leading: IconButton(
-            icon: const Icon(Icons.home, color: Colors.white),
-            onPressed: () {},
-          ),
-        ),
-        body: const EventManagementBody(),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          backgroundColor: const Color(0xFF1565C0),
-          elevation: 4,
-          child: const Icon(Icons.add, color: Colors.white),
-        ),
+    return Scaffold(
+      appBar: AppBarBase(titleText: 'Chi tiết sự kiện'),
+      body: const EventManagementBody(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        backgroundColor: const Color(0xFF1565C0),
+        elevation: 4,
+        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }

@@ -5,36 +5,24 @@ class StudentCardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Thẻ sinh viên',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        fontFamily: 'Roboto',
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue,
-          primary: const Color(0xFF1565C0),
-        ),
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            "Thẻ sinh viên",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          backgroundColor: const Color(0xFF0D47A1),
-          elevation: 4,
-          leading: IconButton(
-            icon: const Icon(Icons.home, color: Colors.white),
-            onPressed: () {},
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "Thẻ sinh viên",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
           ),
         ),
-        body: const StudentCardBody(),
+        backgroundColor: const Color(0xFF0D47A1),
+        elevation: 4,
+        leading: IconButton(
+          icon: const Icon(Icons.home, color: Colors.white),
+          onPressed: () {},
+        ),
       ),
+      body: const StudentCardBody(),
     );
   }
 }
@@ -162,7 +150,7 @@ class StudentCardView extends StatelessWidget {
             child: Row(
               children: [
                 Image.asset(
-                  '/HUIT_logo.png',
+                  'assets/images/HUIT_logo.png',
                   width: 60,
                   height: 60,
                   fit: BoxFit.contain,
@@ -226,7 +214,7 @@ class StudentCardView extends StatelessWidget {
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                        image: AssetImage('/default.png'),
+                        image: AssetImage('assets/images/default.png'),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -323,7 +311,7 @@ class StudentCardView extends StatelessWidget {
 
   Widget _buildBarcode(String id) {
     return Image.asset(
-      '/barcode.png',
+      'assets/images/barcode.png',
       height: 80,
       fit: BoxFit.contain,
       errorBuilder: (context, error, stackTrace) {

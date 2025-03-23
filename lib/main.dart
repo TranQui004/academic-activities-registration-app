@@ -14,15 +14,15 @@ import 'package:doan/views/list_event.dart';
 import 'package:doan/views/event_management.dart';
 import 'package:doan/views/student_card.dart';
 import 'package:doan/views/login.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 
 void main() {
-  //runApp(const EventListApp());
-  //runApp(const EventManagementScreen());
-  runApp(const StudentCardScreen());
+  runApp(const MyApp());
 }
 
-class EventListApp extends StatelessWidget {
-  const EventListApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class EventListApp extends StatelessWidget {
       title: "Ứng dụng đăng ký hoạt động",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Roboto'),
-      home: const LoginView(),
+      home: const ThongTinSVSauQuet(),
     );
   }
 }
