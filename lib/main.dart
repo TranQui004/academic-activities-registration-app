@@ -1,4 +1,10 @@
-import 'package:doan/views/login.dart';
+import 'package:doan/views/chitietsukien.dart';
+import 'package:doan/views/creating_event.dart';
+import 'package:doan/views/thongtindiendanh.dart';
+import 'package:doan/views/xacnhandangky.dart';
+import 'views/home_page_sv.dart';
+import 'views/login.dart';
+import 'views/student_info.dart';
 import 'package:flutter/material.dart';
 import 'package:doan/views/list_event.dart';
 import 'package:doan/views/event_management.dart';
