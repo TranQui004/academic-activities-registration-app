@@ -3,26 +3,34 @@ import 'package:doan/views/tracuusukien.dart';
 import 'package:doan/views/chitietsukien.dart';
 import 'package:doan/views/creating_event.dart';
 import 'package:doan/views/home_page_khoa.dart';
+import 'package:doan/views/thongtindiendanh.dart';
 import 'package:doan/views/xacnhandangky.dart';
 import 'views/home_page_sv.dart';
+import 'views/qr_scanner.dart';
 import 'views/login.dart';
 import 'views/student_info.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:doan/views/list_event.dart';
+import 'package:doan/views/event_management.dart';
+import 'package:doan/views/student_card.dart';
+import 'package:doan/views/login.dart';
 
 void main() {
-  runApp(const MyApp());
+  //runApp(const EventListApp());
+  //runApp(const EventManagementScreen());
+  runApp(const StudentCardScreen());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class EventListApp extends StatelessWidget {
+  const EventListApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: "Ứng dụng đăng ký hoạt động",
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: HomePageSv(),
+      theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Roboto'),
+      home: const LoginView(),
     );
   }
 }
