@@ -3,6 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:doan/main.dart';
 
 class XacNhanDangKyScreen extends StatefulWidget {
+  final IconData? iconCheck;
+  final Color? colorIcon;
+  final String? statusRegis;
+
+  const XacNhanDangKyScreen({
+    Key? key,
+    this.iconCheck = Icons.help_outline,
+    this.colorIcon = Colors.blueAccent,
+    this.statusRegis = 'wait',
+  }) : super(key: key);
+
   @override
   _XacNhanDangKyScreenState createState() => _XacNhanDangKyScreenState();
 }
@@ -20,7 +31,7 @@ class _XacNhanDangKyScreenState extends State<XacNhanDangKyScreen> {
             decoration: const BoxDecoration(color: AppColors.baseColor),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 50.0),
+            padding: const EdgeInsets.all(4),
             child: SingleChildScrollView(
               child: Center(
                 child: Card(
@@ -28,13 +39,12 @@ class _XacNhanDangKyScreenState extends State<XacNhanDangKyScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
+
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
 
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize:
-                          MainAxisSize.max, // Thu gọn chiều cao theo nội dung
                       children: [
                         // Nút "Trở lại" ở đầu trang
                         Row(
@@ -64,26 +74,33 @@ class _XacNhanDangKyScreenState extends State<XacNhanDangKyScreen> {
                         SizedBox(
                           height: 16,
                         ), // Khoảng cách giữa nút "Trở lại" và nội dung
-                        Icon(Icons.help_outline, size: 50, color: Colors.blue),
-                        SizedBox(height: 16),
-                        Text(
-                          'Yêu cầu khi tham gia sự kiện',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          '- Có mặt đúng thời gian',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        Text(
-                          '- Mặc áo đồng phục hoặc áo sơ mi trắng có cổ',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        Text(
-                          '- Nếu vắng mặt -4 điểm rèn luyện',
-                          style: TextStyle(fontSize: 16),
+                        
+                        Icon(widget.iconCheck, size: 150, color: widget.colorIcon),
+                        // Icon(Icons.check_circle_outline, size: 150, color: Colors.blue),
+                        SizedBox(height: 320),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Yêu cầu khi tham gia sự kiện',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              '- Có mặt đúng thời gian',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            Text(
+                              '- Mặc áo đồng phục hoặc áo sơ mi trắng có cổ',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            Text(
+                              '- Nếu vắng mặt -4 điểm rèn luyện',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ],
                         ),
                         SizedBox(height: 16),
                         Row(
@@ -100,40 +117,46 @@ class _XacNhanDangKyScreenState extends State<XacNhanDangKyScreen> {
                           ],
                         ),
                         SizedBox(height: 16),
-                        ElevatedButton(
-                          onPressed:
-                              _isChecked
-                                  ? () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: Text('Thành công'),
-                                          content: Text(
-                                            'Bạn đã đăng ký thành công!',
-                                          ),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.of(
-                                                  context,
-                                                ).pop(); // Đóng dialog
-                                                navigateToXacNhanDangKy(
-                                                  context,
-                                                );
-                                              },
-
-                                              child: Text('OK'),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primary,
+                            ),
+                            onPressed:
+                                _isChecked
+                                    ? () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text('Thành công'),
+                                            content: Text(
+                                              'Bạn đã đăng ký thành công!',
                                             ),
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  }
-                                  : null,
-                          child: Text(
-                            'Đăng Ký',
-                            style: TextStyle(color: Colors.blueAccent),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(
+                                                    context,
+                                                  ).pop(); // Đóng dialog
+                                                  navigateToXacNhanDangKy(
+                                                    context,
+                                                  );
+                                                },
+
+                                                child: Text('OK'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    }
+                                    : null,
+                            child: Text(
+                              'Đăng Ký',
+                              style: TextStyle(color: Colors.white, fontSize: 20),
+                            ),
                           ),
                         ),
                       ],
@@ -153,6 +176,8 @@ class _XacNhanDangKyScreenState extends State<XacNhanDangKyScreen> {
 void navigateToXacNhanDangKy(BuildContext context) {
   Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => EventDetail()),
+    MaterialPageRoute(builder: (context) => XacNhanDangKyScreen(
+      iconCheck: Icons.check_circle_outline, colorIcon: Colors.green,
+    )),
   );
 }

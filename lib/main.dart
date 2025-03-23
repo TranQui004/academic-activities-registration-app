@@ -1,5 +1,8 @@
+import 'package:doan/views/ds_sv_dangky.dart';
+import 'package:doan/views/tracuusukien.dart';
 import 'package:doan/views/chitietsukien.dart';
 import 'package:doan/views/creating_event.dart';
+import 'package:doan/views/home_page_khoa.dart';
 import 'package:doan/views/xacnhandangky.dart';
 import 'views/home_page_sv.dart';
 import 'views/login.dart';
@@ -19,7 +22,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: CreatingEvent(),
+      home: HomePageSv(),
     );
   }
 }
@@ -62,7 +65,7 @@ class AppBarBase extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
-
+//Sinh vien
 class DrawerBase extends StatelessWidget {
   const DrawerBase({super.key});
   @override
@@ -123,11 +126,6 @@ class DrawerBase extends StatelessWidget {
                   ),
                 ),
               ),
-              // Padding(padding: EdgeInsets.all(18),
-              //   child: Expanded(
-              //     child:
-              //   ),
-              // ),
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.only(left: 12),
@@ -151,7 +149,7 @@ class DrawerBase extends StatelessWidget {
                           alignment: Alignment.centerLeft,
                         ),
                         child: Text(
-                          'Hoạt động đã đăng ký',
+                          'Lịch sử đăng ký hoạt động',
                           style: TextStyle(fontSize: 16),
                         ),
                       ),
@@ -162,7 +160,139 @@ class DrawerBase extends StatelessWidget {
                           alignment: Alignment.centerLeft,
                         ),
                         child: Text(
-                          'Hoạt động đã tham gia',
+                          'Tra cứu hoạt động',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                      SizedBox(height: 80),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Positioned(
+            bottom: 40,
+            left: 10,
+            right: 10,
+            child: ElevatedButton(
+              onPressed: () {},
+              child: Text(
+                'Đăng xuất',
+                style: TextStyle(color: Colors.red, fontSize: 18),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+//KHoa
+class DrawerBaseKhoa extends StatelessWidget {
+  const DrawerBaseKhoa({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      backgroundColor: AppColors.baseColor,
+      child: Stack(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 200,
+                width: double.infinity,
+                color: AppColors.primary,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(height: 40),
+                      Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(200),
+                            child: Image.asset(
+                              "assets/images/HUIT.png",
+                              height: 80,
+                              width: 80,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          SizedBox(width: 14),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'CNTT',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: AppColors.textWhite,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 150,
+                                child: Text(
+                                  'KHOA CÔNG NGHỆ THÔNG TIN',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.textWhite,
+                                  ),
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(left: 12),
+                  child: ListView(
+                    children: [
+                      //list item drawer
+                      TextButton(
+                        onPressed: () {},
+                        style: TextButton.styleFrom(
+                          alignment: Alignment.centerLeft,
+                        ),
+                        child: Text(
+                          'Tra cứu sự kiện',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                      //list item drawer
+                      TextButton(
+                        onPressed: () {},
+                        style: TextButton.styleFrom(
+                          alignment: Alignment.centerLeft,
+                        ),
+                        child: Text(
+                          'Quản lý sự kiện',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                      //list item drawer
+                      TextButton(
+                        onPressed: () {},
+                        style: TextButton.styleFrom(
+                          alignment: Alignment.centerLeft,
+                        ),
+                        child: Text(
+                          'Tra cứu thông tin sinh viên',
                           style: TextStyle(fontSize: 16),
                         ),
                       ),
