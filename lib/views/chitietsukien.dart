@@ -47,7 +47,7 @@ class EventDetail extends StatelessWidget {
                 decoration: BoxDecoration(
                   image: const DecorationImage(
                     image: AssetImage(
-                      'assets/images/events_images/huit_open_day.jpg',
+                      'assets/images/huit_open_day.jpg',
                     ),
                     fit: BoxFit.cover,
                   ),

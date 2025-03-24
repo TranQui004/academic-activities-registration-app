@@ -76,7 +76,7 @@ class _CreatingEventState extends State<CreatingEvent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarBase(titleText: 'Thông tin sự kiện'),
+      appBar: AppBarBase(titleText: 'Tạo sự kiện'),
       body: SingleChildScrollView(
         child: Form(
           key: _formKey,
@@ -320,7 +320,7 @@ class _CreatingEventState extends State<CreatingEvent> {
         ),
         backgroundColor: AppColors.primary,
       ),
-      drawer: DrawerBase(),
+      drawer: DrawerBaseKhoa(),
     );
   }
 }
