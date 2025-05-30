@@ -18,7 +18,6 @@ class _CreatingEventState extends State<CreatingEvent> {
   final TextEditingController _participantsTargetController = TextEditingController(); // Controller mới
   final TextEditingController _meetingLocationController = TextEditingController();
   final TextEditingController _participantsController = TextEditingController();
-  final TextEditingController _registeredStudentsController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _detailedDescriptionController = TextEditingController();
   DateTime? _selectedDate;
@@ -95,7 +94,6 @@ class _CreatingEventState extends State<CreatingEvent> {
       print('Đối tượng tham gia: ${_participantsTargetController.text}');
       print('Địa điểm tập trung: ${_meetingLocationController.text}');
       print('Số lượng sinh viên: ${_participantsController.text}');
-      print('Số lượng đã đăng ký: ${_registeredStudentsController.text}');
       if (_imageFile != null) {
         print('Ảnh: ${_imageFile!.path}');
       }
@@ -326,19 +324,7 @@ class _CreatingEventState extends State<CreatingEvent> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 10),
-                    TextFormField(
-                      controller: _registeredStudentsController,
-                      decoration: InputDecoration(
-                        labelText: 'Số lượng sinh viên đã đăng ký',
-                        border: OutlineInputBorder(),
-                        constraints: BoxConstraints(
-                          maxWidth: deviceWidth - 32,
-                        ),
-                      ),
-                      keyboardType: TextInputType.number,
-                      validator: _validateNotEmpty,
-                    ),
+                    
                     SizedBox(height: 10),
                     TextFormField(
                       controller: _detailedDescriptionController,
