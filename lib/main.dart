@@ -26,11 +26,28 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sampleEvent = Event(
+      id: '1',
+      TenSuKien: 'HUIT Open Day 2025',
+      MoTa: 'Sự kiện giới thiệu về trường HUIT',
+      DDToChuc: 'Trường ĐH Công Thương TP.HCM',
+      DoiTuong: 'Sinh viên năm nhất',
+      DonViToChuc: 'Khoa CNTT',
+      HDChinh: 'Giới thiệu trường',
+      LoaiHD: 'Sự kiện',
+      SLDangKy: 50,
+      SLToiDa: 100,
+      TGKetThuc: DateTime(2025, 5, 30, 17, 0), // 17:00
+      TGToChuc: DateTime(2025, 5, 30, 8, 0),   // 8:00
+      ThongTinThem: 'Mang theo thẻ sinh viên\nTrang phục lịch sự\nĐi đúng giờ \nHUIT Day là sự kiện thường niên do Khoa Công nghệ Thông tin – Trường Đại học Công nghiệp Thực phẩm TP.HCM (HUFI) tổ chức, nhằm tôn vinh tinh thần học tập, sáng tạo và kết nối trong cộng đồng sinh viên CNTT. Đây là dịp đặc biệt để sinh viên, giảng viên, cựu sinh viên và các doanh nghiệp đối tác cùng nhau giao lưu, chia sẻ kiến thức, công nghệ và định hướng nghề nghiệp',
+      UrlAnh: 'https://scontent.fsgn8-3.fna.fbcdn.net/v/t39.30808-6/485766398_1066688488824666_554276560066969464_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeE30DTlB70JI6brCkOWUudipCRvCfn3m92kJG8J-feb3cLZT2C0AdsO2iB3k_PhtiKqWZdT_SgvfhQFvd0uEM8s&_nc_ohc=adowegutYQEQ7kNvwHEgqCc&_nc_oc=AdnBkmh-BkZQChj6dIcfjUnhnqghymDTgX9013QZ_--q3h03KDYXvIhCuHNW0V9cN_3YGq3CG6PuXG0lVZXF3Opk&_nc_zt=23&_nc_ht=scontent.fsgn8-3.fna&_nc_gid=Bd6C89hd-a2ZFk6WdnOr-Q&oh=00_AfKOitgN7g5U5hI2p1R4iuyVo2Kwhqgtjmr82lcWs42rRQ&oe=683F9E6B'
+    );
+
     return MaterialApp(
       title: "Ứng dụng đăng ký hoạt động",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Roboto'),
-      home: const CreatingEvent(),
+      home: EventDetail(event: sampleEvent),
     );
   }
 }
