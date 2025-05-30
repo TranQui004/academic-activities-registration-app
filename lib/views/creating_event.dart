@@ -26,6 +26,8 @@ class _CreatingEventState extends State<CreatingEvent> {
   TimeOfDay? _selectedEndTime;
   File? _imageFile;
 
+  double get deviceWidth => MediaQuery.of(context).size.width;
+
   Future<void> _pickImage() async {
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
@@ -70,6 +72,33 @@ class _CreatingEventState extends State<CreatingEvent> {
       setState(() {
         _selectedEndTime = picked;
       });
+    }
+  }
+
+  String? _validateNotEmpty(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Vui lòng nhập thông tin';
+    }
+    return null;
+  }
+
+  void _submitForm() {
+    if (_formKey.currentState!.validate()) {
+      // Xử lý dữ liệu khi form hợp lệ
+      print('Tên sự kiện: ${_eventNameController.text}');
+      print('Mô tả: ${_descriptionController.text}');
+      print('Mô tả chi tiết: ${_detailedDescriptionController.text}');
+      print('Ngày: $_selectedDate');
+      print('Giờ bắt đầu: $_selectedStartTime');
+      print('Giờ kết thúc: $_selectedEndTime');
+      print('Địa điểm: ${_locationController.text}');
+      print('Đối tượng tham gia: ${_participantsTargetController.text}');
+      print('Địa điểm tập trung: ${_meetingLocationController.text}');
+      print('Số lượng sinh viên: ${_participantsController.text}');
+      print('Số lượng đã đăng ký: ${_registeredStudentsController.text}');
+      if (_imageFile != null) {
+        print('Ảnh: ${_imageFile!.path}');
+      }
     }
   }
 
@@ -142,7 +171,11 @@ class _CreatingEventState extends State<CreatingEvent> {
                       decoration: InputDecoration(
                         labelText: 'Tên sự kiện',
                         border: OutlineInputBorder(),
+                        constraints: BoxConstraints(
+                          maxWidth: deviceWidth - 32, // 32 is total padding (16 * 2)
+                        ),
                       ),
+                      validator: _validateNotEmpty,
                     ),
                     SizedBox(height: 10),
                     TextFormField(
@@ -150,46 +183,58 @@ class _CreatingEventState extends State<CreatingEvent> {
                       decoration: InputDecoration(
                         labelText: 'Mô tả sự kiện',
                         border: OutlineInputBorder(),
+                        constraints: BoxConstraints(
+                          maxWidth: deviceWidth - 32,
+                        ),
                       ),
                       maxLines: 3,
+                      validator: _validateNotEmpty,
                     ),
                     SizedBox(height: 10),
                     Row(
                       children: [
                         Expanded(
-                          child: TextFormField(
-                            readOnly: true,
-                            decoration: InputDecoration(
-                              labelText: 'Ngày',
-                              border: OutlineInputBorder(),
-                              suffixIcon: IconButton(
-                                icon: Icon(Icons.calendar_today),
-                                onPressed: () => _selectDate(context),
+                          child: SizedBox(
+                            width: (deviceWidth / 2) - 21, // Account for padding and spacing
+                            child: TextFormField(
+                              readOnly: true,
+                              decoration: InputDecoration(
+                                labelText: 'Ngày',
+                                border: OutlineInputBorder(),
+                                suffixIcon: IconButton(
+                                  icon: Icon(Icons.calendar_today),
+                                  onPressed: () => _selectDate(context),
+                                ),
                               ),
-                            ),
-                            controller: TextEditingController(
-                              text: _selectedDate != null
-                                  ? '${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}'
-                                  : '',
+                              controller: TextEditingController(
+                                text: _selectedDate != null
+                                    ? '${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}'
+                                    : '',
+                              ),
+                              validator: (value) => _selectedDate == null ? 'Vui lòng chọn ngày' : null,
                             ),
                           ),
                         ),
                         SizedBox(width: 10),
                         Expanded(
-                          child: TextFormField(
-                            readOnly: true,
-                            decoration: InputDecoration(
-                              labelText: 'Giờ bắt đầu',
-                              border: OutlineInputBorder(),
-                              suffixIcon: IconButton(
-                                icon: Icon(Icons.access_time),
-                                onPressed: () => _selectStartTime(context),
+                          child: SizedBox(
+                            width: (deviceWidth / 2) - 21,
+                            child: TextFormField(
+                              readOnly: true,
+                              decoration: InputDecoration(
+                                labelText: 'Giờ bắt đầu',
+                                border: OutlineInputBorder(),
+                                suffixIcon: IconButton(
+                                  icon: Icon(Icons.access_time),
+                                  onPressed: () => _selectStartTime(context),
+                                ),
                               ),
-                            ),
-                            controller: TextEditingController(
-                              text: _selectedStartTime != null
-                                  ? '${_selectedStartTime!.hour}:${_selectedStartTime!.minute}'
-                                  : '',
+                              controller: TextEditingController(
+                                text: _selectedStartTime != null
+                                    ? '${_selectedStartTime!.hour}:${_selectedStartTime!.minute}'
+                                    : '',
+                              ),
+                              validator: (value) => _selectedStartTime == null ? 'Vui lòng chọn giờ bắt đầu' : null,
                             ),
                           ),
                         ),
@@ -201,6 +246,9 @@ class _CreatingEventState extends State<CreatingEvent> {
                       decoration: InputDecoration(
                         labelText: 'Giờ kết thúc',
                         border: OutlineInputBorder(),
+                        constraints: BoxConstraints(
+                          maxWidth: deviceWidth - 32,
+                        ),
                         suffixIcon: IconButton(
                           icon: Icon(Icons.access_time),
                           onPressed: () => _selectEndTime(context),
@@ -211,39 +259,72 @@ class _CreatingEventState extends State<CreatingEvent> {
                             ? '${_selectedEndTime!.hour}:${_selectedEndTime!.minute}'
                             : '',
                       ),
+                      validator: (value) => _selectedEndTime == null ? 'Vui lòng chọn giờ kết thúc' : null,
                     ),
                     SizedBox(height: 10),
-                    TextFormField(
-                      controller: _locationController,
-                      decoration: InputDecoration(
-                        labelText: 'Địa điểm',
-                        border: OutlineInputBorder(),
-                      ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                            width: (deviceWidth / 2) - 21,
+                            child: TextFormField(
+                              controller: _locationController,
+                              decoration: InputDecoration(
+                                labelText: 'Địa điểm',
+                                border: OutlineInputBorder(),
+                              ),
+                              validator: _validateNotEmpty,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: SizedBox(
+                            width: (deviceWidth / 2) - 21,
+                            child: TextFormField(
+                              controller: _participantsTargetController,
+                              decoration: InputDecoration(
+                                labelText: 'Đối tượng tham gia',
+                                border: OutlineInputBorder(),
+                              ),
+                              validator: _validateNotEmpty,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(height: 10),
-                    TextFormField(
-                      controller: _participantsTargetController,
-                      decoration: InputDecoration(
-                        labelText: 'Đối tượng tham gia',
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    TextFormField(
-                      controller: _meetingLocationController,
-                      decoration: InputDecoration(
-                        labelText: 'Địa điểm tập trung',
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    TextFormField(
-                      controller: _participantsController,
-                      decoration: InputDecoration(
-                        labelText: 'Số lượng sinh viên tham gia',
-                        border: OutlineInputBorder(),
-                      ),
-                      keyboardType: TextInputType.number,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                            width: (deviceWidth / 2) - 21,
+                            child: TextFormField(
+                              controller: _meetingLocationController,
+                              decoration: InputDecoration(
+                                labelText: 'Địa điểm tập trung',
+                                border: OutlineInputBorder(),
+                              ),
+                              validator: _validateNotEmpty,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: SizedBox(
+                            width: (deviceWidth / 2) - 21,
+                            child: TextFormField(
+                              controller: _participantsController,
+                              decoration: InputDecoration(
+                                labelText: 'Số lượng sinh viên',
+                                border: OutlineInputBorder(),
+                              ),
+                              keyboardType: TextInputType.number,
+                              validator: _validateNotEmpty,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(height: 10),
                     TextFormField(
@@ -251,8 +332,12 @@ class _CreatingEventState extends State<CreatingEvent> {
                       decoration: InputDecoration(
                         labelText: 'Số lượng sinh viên đã đăng ký',
                         border: OutlineInputBorder(),
+                        constraints: BoxConstraints(
+                          maxWidth: deviceWidth - 32,
+                        ),
                       ),
                       keyboardType: TextInputType.number,
+                      validator: _validateNotEmpty,
                     ),
                     SizedBox(height: 10),
                     TextFormField(
@@ -260,28 +345,18 @@ class _CreatingEventState extends State<CreatingEvent> {
                       decoration: InputDecoration(
                         labelText: 'Mô tả chi tiết',
                         border: OutlineInputBorder(),
+                        constraints: BoxConstraints(
+                          maxWidth: deviceWidth - 32,
+                        ),
                       ),
                       maxLines: 8,
+                      validator: _validateNotEmpty,
                     ),
                     SizedBox(height: 20),
                     Center(
                       child: ElevatedButton(
                         onPressed: () {
-                          // Xử lý dữ liệu khi nhấn nút
-                          print('Tên sự kiện: ${_eventNameController.text}');
-                          print('Mô tả: ${_descriptionController.text}');
-                          print('Mô tả chi tiết: ${_detailedDescriptionController.text}');
-                          print('Ngày: $_selectedDate');
-                          print('Giờ bắt đầu: $_selectedStartTime');
-                          print('Giờ kết thúc: $_selectedEndTime');
-                          print('Địa điểm: ${_locationController.text}');
-                          print('Đối tượng tham gia: ${_participantsTargetController.text}');
-                          print('Địa điểm tập trung: ${_meetingLocationController.text}');
-                          print('Số lượng sinh viên: ${_participantsController.text}');
-                          print('Số lượng đã đăng ký: ${_registeredStudentsController.text}');
-                          if (_imageFile != null) {
-                            print('Ảnh: ${_imageFile!.path}');
-                          }
+                          _submitForm();
                         },
                         child: Text('Lưu sự kiện'),
                       ),
@@ -295,21 +370,7 @@ class _CreatingEventState extends State<CreatingEvent> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          // Xử lý dữ liệu khi nhấn nút
-          print('Tên sự kiện: ${_eventNameController.text}');
-          print('Mô tả: ${_descriptionController.text}');
-          print('Mô tả chi tiết: ${_detailedDescriptionController.text}');
-          print('Ngày: $_selectedDate');
-          print('Giờ bắt đầu: $_selectedStartTime');
-          print('Giờ kết thúc: $_selectedEndTime');
-          print('Địa điểm: ${_locationController.text}');
-          print('Đối tượng tham gia: ${_participantsTargetController.text}');
-          print('Địa điểm tập trung: ${_meetingLocationController.text}');
-          print('Số lượng sinh viên: ${_participantsController.text}');
-          print('Số lượng đã đăng ký: ${_registeredStudentsController.text}');
-          if (_imageFile != null) {
-            print('Ảnh: ${_imageFile!.path}');
-          }
+          _submitForm();
         },
         label: const Text(
           'Tạo sự kiện',

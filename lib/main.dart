@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       title: "Ứng dụng đăng ký hoạt động",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Roboto'),
-      home: const ThongTinSVSauQuet(),
+      home: const CreatingEvent(),
     );
   }
 }
