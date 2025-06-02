@@ -1,40 +1,7 @@
+import 'package:doan/models/event.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:doan/main.dart';
-
-class Event {
-  final String id;
-  final String? DDToChuc;
-  final String? DoiTuong;
-  final String? DonViToChuc;
-  final String? HDChinh;
-  final String? LoaiHD;
-  final String? MoTa;
-  final int SLDangKy;
-  final int SLToiDa;
-  final DateTime TGKetThuc;
-  final DateTime TGToChuc;
-  final String? TenSuKien;
-  final String? ThongTinThem;
-  final String? UrlAnh;
-
-  Event({
-    required this.id,
-    this.DDToChuc,
-    this.DoiTuong,
-    this.DonViToChuc,
-    this.HDChinh,
-    this.LoaiHD,
-    this.MoTa,
-    required this.SLDangKy,
-    required this.SLToiDa,
-    required this.TGKetThuc,
-    required this.TGToChuc,
-    this.TenSuKien,
-    this.ThongTinThem,
-    this.UrlAnh,
-  });
-}
 
 class EventDetail extends StatelessWidget {
   final Event event;
@@ -48,7 +15,8 @@ class EventDetail extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBarBase(titleText: 'Thông tin sự kiện'),      body: SingleChildScrollView(
+      appBar: AppBarBase(titleText: 'Thông tin sự kiện'),
+      body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

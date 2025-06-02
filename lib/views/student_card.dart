@@ -1,86 +1,74 @@
+import 'dart:convert';
+import 'dart:ui';
+import 'package:barcode_widget/barcode_widget.dart';
+import 'package:doan/main.dart';
+import 'package:doan/models/sinhvien.dart';
 import 'package:flutter/material.dart';
 
 class StudentCardScreen extends StatelessWidget {
-  const StudentCardScreen({super.key});
+  final SinhVien sv;
+
+  const StudentCardScreen({
+    super.key,
+    required this.sv,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Thẻ sinh viên",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
+      appBar: AppBarBase(titleText: 'Thông tin sinh viên'),
+      drawer: DrawerBase(),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('assets/images/HUIT.png'),
+              fit: BoxFit.cover,
+              alignment: Alignment.centerLeft,
+              opacity: 0.8,
           ),
         ),
-        backgroundColor: const Color(0xFF0D47A1),
-        elevation: 4,
-        leading: IconButton(
-          icon: const Icon(Icons.home, color: Colors.white),
-          onPressed: () {},
-        ),
-      ),
-      body: const StudentCardBody(),
-    );
-  }
-}
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            child: Column(
+              children: [
+                StudentCardView(sv: sv,),
 
-class StudentCardBody extends StatelessWidget {
-  const StudentCardBody({super.key});
+                const SizedBox(height: 24),
 
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        child: Column(
-          children: [
-            const StudentCardView(
-              studentName: "Nguyễn Văn A",
-              studentId: "2021010001",
-              faculty: "Công nghệ thông tin",
-              className: "K13-CNPM",
-            ),
-
-            const SizedBox(height: 24),
-
-            // Thông tin thêm về thẻ
-            Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
-                    blurRadius: 10,
-                    offset: const Offset(0, 5),
+                // Thông tin thêm về thẻ
+                Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      AppColors.boxShadow
+                    ],
                   ),
-                ],
-              ),
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Thông tin thẻ",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF263238),
-                    ),
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Thông tin thẻ",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF263238),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      _buildInfoRow(Icons.school, "Khóa học: ${sv.NienKhoa}"),
+                      const SizedBox(height: 8),
+                      _buildInfoRow(Icons.info_outline, "Trạng thái: ${sv.trangThai}"),
+                      const SizedBox(height: 16),
+                    ],
                   ),
-                  const SizedBox(height: 12),
-                  _buildInfoRow(Icons.school, "Khóa học: 2022 - 2026"),
-                  const SizedBox(height: 8),
-                  _buildInfoRow(Icons.info_outline, "Trạng thái: Đang học"),
-                  const SizedBox(height: 16),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -103,17 +91,11 @@ class StudentCardBody extends StatelessWidget {
 }
 
 class StudentCardView extends StatelessWidget {
-  final String studentName;
-  final String studentId;
-  final String faculty;
-  final String className;
+  final SinhVien sv;
 
   const StudentCardView({
     super.key,
-    required this.studentName,
-    required this.studentId,
-    required this.faculty,
-    required this.className,
+    required this.sv,
   });
 
   @override
@@ -128,11 +110,7 @@ class StudentCardView extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF1565C0).withOpacity(0.3),
-            blurRadius: 12,
-            offset: const Offset(0, 6),
-          ),
+          AppColors.boxShadow
         ],
       ),
       child: Column(
@@ -211,10 +189,10 @@ class StudentCardView extends StatelessWidget {
                   child: Container(
                     width: 90,
                     height: 90,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                        image: AssetImage('assets/images/default.png'),
+                        image: MemoryImage(base64Decode(sv.AnhUrl.split(',').last)),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -224,7 +202,7 @@ class StudentCardView extends StatelessWidget {
 
                 // Thông tin sinh viên
                 Text(
-                  studentName,
+                  sv.hoTen,
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -234,7 +212,7 @@ class StudentCardView extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  "MSSV: $studentId",
+                  "MSSV: ${sv.mssv}",
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
@@ -244,7 +222,7 @@ class StudentCardView extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  "Khoa: $faculty",
+                  "Khoa: ${sv.khoa}",
                   style: const TextStyle(
                     fontSize: 14,
                     color: Color(0xFFE1F5FE),
@@ -253,7 +231,7 @@ class StudentCardView extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  "Lớp: $className",
+                  "Lớp: ${sv.lop}",
                   style: const TextStyle(
                     fontSize: 14,
                     color: Color(0xFFE1F5FE),
@@ -270,7 +248,7 @@ class StudentCardView extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Column(children: [_buildBarcode(studentId)]),
+                  child: Column(children: [_buildBarcode(sv.mssv)]),
                 ),
 
                 const SizedBox(height: 16),
@@ -290,9 +268,9 @@ class StudentCardView extends StatelessWidget {
                       width: 1,
                     ),
                   ),
-                  child: const Center(
+                  child: Center(
                     child: Text(
-                      "Khóa học: 2022 - 2026",
+                      "Niên khoá: ${sv.NienKhoa}",
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
@@ -310,23 +288,11 @@ class StudentCardView extends StatelessWidget {
   }
 
   Widget _buildBarcode(String id) {
-    return Image.asset(
-      'assets/images/barcode.png',
-      height: 80,
-      fit: BoxFit.contain,
-      errorBuilder: (context, error, stackTrace) {
-        return Container(
-          height: 80,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Colors.grey[200],
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: const Center(
-            child: Icon(Icons.qr_code, size: 50, color: Colors.grey),
-          ),
-        );
-      },
+    return BarcodeWidget(
+        data: id, 
+        barcode: Barcode.codabar(),
+        width: SizeDevice.width,
+        height: 100,
     );
   }
 }
