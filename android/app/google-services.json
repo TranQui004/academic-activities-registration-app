@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "684186255399",
+    "project_id": "hoatdongcunghuit",
+    "storage_bucket": "hoatdongcunghuit.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:684186255399:android:f129d5cf1fff22afd40e02",
+        "android_client_info": {
+          "package_name": "com.example.doan"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtGW9ebJB-EUwu3keTNyMHM5NTq_jEl8k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
