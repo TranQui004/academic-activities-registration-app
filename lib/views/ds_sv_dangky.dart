@@ -1,16 +1,18 @@
 import 'package:doan/main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SVDangKy{
     final String MSSV;
     final String HoTen;
-    bool DiemDanh;
-
+    final String Lop;
+    final String TinhTrang;
     SVDangKy({
         required this.MSSV,
         required this.HoTen,
-        this.DiemDanh = false,
+        required this.Lop,
+        required this.TinhTrang,
     });
 }
 
@@ -24,12 +26,36 @@ class DSSinhVienThamGia extends StatefulWidget{
 class _DSSinhVienThamGiaState extends State<DSSinhVienThamGia>{
     
     List<SVDangKy> dsDangKy = [
-        SVDangKy(MSSV: '2001224715', HoTen: 'Nguyễn Văn Thành', DiemDanh: true),
-        SVDangKy(MSSV: '2001224715', HoTen: 'Nguyễn Văn Thành', DiemDanh: false),
-        SVDangKy(MSSV: '2001224715', HoTen: 'Nguyễn Văn Thành', DiemDanh: true),
-        SVDangKy(MSSV: '2001224715', HoTen: 'Nguyễn Văn Thành', DiemDanh: false),
-        SVDangKy(MSSV: '2001224715', HoTen: 'Nguyễn Văn Thành', DiemDanh: true),
-        SVDangKy(MSSV: '2001224715', HoTen: 'Nguyễn Văn Thành', DiemDanh: true),
+        SVDangKy(MSSV: '2001224715', HoTen: 'Nguyễn Văn Thành', Lop: '13DHTH06', TinhTrang: 'Đăng ký'),
+        SVDangKy(MSSV: '2', HoTen: 'Nguyễn Văn Thành', Lop: '13DHTH03', TinhTrang: 'Đăng ký'),
+        SVDangKy(MSSV: '3', HoTen: 'Nguyễn Văn Thành', Lop: '13DHTH03', TinhTrang: 'Đăng ký'),
+        SVDangKy(MSSV: '4', HoTen: 'Mguyễn Văn Thành', Lop: '13DHTH03', TinhTrang: 'Đăng ký'),
+        SVDangKy(MSSV: '5', HoTen: 'Nguyễn Văn Thành', Lop: '13DHTH03', TinhTrang: 'Đăng ký'),
+        SVDangKy(MSSV: '6', HoTen: 'Nguyễn Văn Thành', Lop: '13DHTH03', TinhTrang: 'Đăng ký'),
+        SVDangKy(MSSV: '1', HoTen: 'Nguyễn Văn Thành', Lop: '13DHTH03', TinhTrang: 'Đăng ký'),
+        SVDangKy(MSSV: '2', HoTen: 'Aguyễn Văn Thành', Lop: '13DHTH03', TinhTrang: 'Đăng ký'),
+        SVDangKy(MSSV: '3', HoTen: 'Nguyễn Văn Thành', Lop: '13DHTH03', TinhTrang: 'Đăng ký'),
+        SVDangKy(MSSV: '4', HoTen: 'Nguyễn Văn Thành', Lop: '13DHTH03', TinhTrang: 'Đăng ký'),
+        SVDangKy(MSSV: '5', HoTen: 'Nguyễn Văn Thành', Lop: '13DHTH03', TinhTrang: 'Đăng ký'),
+        SVDangKy(MSSV: '6', HoTen: 'Nguyễn Văn Thành', Lop: '13DHTH03', TinhTrang: 'Đăng ký'),
+        SVDangKy(MSSV: '1', HoTen: 'Nguyễn Văn Thành', Lop: '13DHTH03', TinhTrang: 'Đăng ký'),
+        SVDangKy(MSSV: '2', HoTen: 'Nguyễn Văn Thành', Lop: '13DHTH03', TinhTrang: 'Đăng ký'),
+        SVDangKy(MSSV: '3', HoTen: 'Nguyễn Văn Thành', Lop: '13DHTH03', TinhTrang: 'Đăng ký'),
+        SVDangKy(MSSV: '4', HoTen: 'Nguyễn Văn Thành', Lop: '13DHTH03', TinhTrang: 'Đăng ký'),
+        SVDangKy(MSSV: '5', HoTen: 'Nguyễn Văn Thành', Lop: '13DHTH03', TinhTrang: 'Đăng ký'),
+        SVDangKy(MSSV: '6', HoTen: 'Nguyễn Văn Thành', Lop: '13DHTH03', TinhTrang: 'Đăng ký'),
+        SVDangKy(MSSV: '1', HoTen: 'Nguyễn Văn Thành', Lop: '13DHTH03', TinhTrang: 'Đăng ký'),
+        SVDangKy(MSSV: '2', HoTen: 'Nguyễn Văn Thành', Lop: '13DHTH03', TinhTrang: 'Đăng ký'),
+        SVDangKy(MSSV: '3', HoTen: 'Nguyễn Văn Thành', Lop: '13DHTH03', TinhTrang: 'Đăng ký'),
+        SVDangKy(MSSV: '4', HoTen: 'Nguyễn Văn Thành', Lop: '13DHTH03', TinhTrang: 'Đăng ký'),
+        SVDangKy(MSSV: '5', HoTen: 'Nguyễn Văn Thành', Lop: '13DHTH03', TinhTrang: 'Đăng ký'),
+        SVDangKy(MSSV: '6', HoTen: 'Nguyễn Văn Thành', Lop: '13DHTH03', TinhTrang: 'Đăng ký'),
+        SVDangKy(MSSV: '1', HoTen: 'Nguyễn Văn Thành', Lop: '13DHTH03', TinhTrang: 'Đăng ký'),
+        SVDangKy(MSSV: '2', HoTen: 'Nguyễn Văn Thành', Lop: '13DHTH03', TinhTrang: 'Đăng ký'),
+        SVDangKy(MSSV: '3', HoTen: 'Nguyễn Văn Thành', Lop: '13DHTH03', TinhTrang: 'Đăng ký'),
+        SVDangKy(MSSV: '4', HoTen: 'Nguyễn Văn Thành', Lop: '13DHTH03', TinhTrang: 'Đăng ký'),
+        SVDangKy(MSSV: '5', HoTen: 'Nguyễn Văn Thành', Lop: '13DHTH03', TinhTrang: 'Đăng ký'),
+        SVDangKy(MSSV: '6', HoTen: 'Nguyễn Văn Thành', Lop: '13DHTH03', TinhTrang: 'Đăng ký'),
     ];
 
     @override
@@ -37,126 +63,96 @@ class _DSSinhVienThamGiaState extends State<DSSinhVienThamGia>{
         return Scaffold(
             appBar: AppBarBase(titleText: 'Danh sách tham gia'),
 
-            body: Container(
-                width: double.infinity,
-                color: AppColors.baseColor,
-                child: Padding(padding: EdgeInsets.all(8),
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                            Row(children: [
-                                Text('Chủ đề:',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        color: AppColors.textBlack,
-                                        fontWeight: FontWeight.bold,
-                                    ),
-                                ),
-                                SizedBox(width: 4,),
-                                SizedBox(width: 315,
-                                    child: Text('AI hướng đến tương lai',
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            color: AppColors.textBlack,
-                                        ),
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        softWrap: true,
-                                    ),
-                                ),
-                            ],),
-                            SizedBox(height: 12,),
-                            Row(children: [
-                                Text('Thời gian:',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        color: AppColors.textBlack,
-                                        fontWeight: FontWeight.bold,
-                                    ),
-                                ),
-                                SizedBox(width: 4,),
-                                SizedBox(width: 300,
-                                    child: Text('14/04/2004',
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            color: AppColors.textBlack,
-                                        ),
-                                    ),
-                                ),
-                            ],),
-                            SizedBox(height: 12,),
-                            Row(children: [
-                                Text('Địa điểm:',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        color: AppColors.textBlack,
-                                        fontWeight: FontWeight.bold,
-                                    ),
-                                ),
-                                SizedBox(width: 4,),
-                                SizedBox(width: 300,
-                                    child: Text('Hội trường C HUIT',
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            color: AppColors.textBlack,
-                                        ),
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        softWrap: true,
-                                    ),
-                                ),
-                            ],),
-                            SizedBox(height: 50,
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+            body: SingleChildScrollView(
+                child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Padding(padding: EdgeInsets.all(12),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                                Row(
                                     children: [
-                                        ElevatedButton(onPressed: (){},
+                                        ElevatedButton(
+                                            onPressed: (){},
                                             style: ElevatedButton.styleFrom(
-                                                backgroundColor: const Color.fromARGB(255, 40, 216, 0),
                                                 shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(12),
-                                                ),
+                                                    borderRadius: BorderRadius.circular(12)
+                                                )
                                             ),
-                                            child: Text('In danh sách',
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: AppColors.textBlack,
-                                                ),
+                                            child: Row(children: [
+                                                Icon(Icons.print),
+                                                SizedBox(width: 4,),
+                                                Text('In danh sách')
+                                            ],)
+                                        ),
+                                        SizedBox(width: 12,),
+                                        ElevatedButton(
+                                            onPressed: (){},
+                                            style: ElevatedButton.styleFrom(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(12)
+                                                )
                                             ),
+                                            child: Row(children: [
+                                                Icon(Icons.find_in_page_outlined),
+                                                SizedBox(width: 4,),
+                                                Text('Tìm trong danh sách') 
+                                            ],)
                                         ),
                                     ],
                                 ),
-                            ),
-                            Expanded(
-                                child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(12),
-                                        boxShadow: [AppColors.boxShadow]
-                                    ),
-                                    child: Padding(padding: EdgeInsets.all(4), child: ListView.builder(
-                                        itemCount: dsDangKy.length,
-                                        itemBuilder: (context, index) {
-                                            return Card(
-                                                margin: EdgeInsets.all(2),
-                                                child: ListTile(
-                                                    title: Text(dsDangKy[index].HoTen, style: TextStyle(fontWeight: FontWeight.bold)),
-                                                    subtitle: Text("MSSV: ${dsDangKy[index].MSSV}"),
-                                                    trailing: Text('Điểm danh: ${dsDangKy[index].DiemDanh ? 'Y' : 'N'}', style: TextStyle(color: Colors.green, fontSize: 16)),
-                                                ),
-                                            );
-                                        }
-                                    ),),
+                                SizedBox(height: 12),
+                                DataTable(
+                                    columnSpacing: 20,
+                                    horizontalMargin: 10,
+                                    columns: _createColumns(),
+                                    rows: _createRows()
                                 ),
-                            ),
-                        ],
+                            ],
+                        ),
                     ),
                 ),
             ),
 
             drawer: DrawerBaseKhoa(),
         );
+    }
+
+    List<DataColumn> _createColumns () {
+        return [
+            DataColumn(label: Center(
+                child: Text('STT'),
+            )),
+            DataColumn(label: GestureDetector(
+                onTap: null,
+                child: Text('MSSV'),
+            )),
+            DataColumn(label: GestureDetector(
+                onTap: null,
+                child: Text('Họ và Tên'),
+            )),
+            DataColumn(label: GestureDetector(
+                onTap: null,
+                child: Text('Lớp'),
+            )),
+            DataColumn(label: GestureDetector(
+                onTap: null,
+                child: Text('Tình trạng'),
+            )),
+        ];
+    }
+
+    List<DataRow> _createRows () {
+        var i = 0;
+        return dsDangKy.map((e){
+            i++;
+            return DataRow(cells: [
+                DataCell(Center(child: Text(i.toString()))),
+                DataCell(Text(e.MSSV.toString())),
+                DataCell(Text(e.HoTen.toString())),
+                DataCell(Text(e.Lop.toString())),
+                DataCell(Text(e.TinhTrang.toString())),
+            ]);
+        }).toList();
     }
 }
