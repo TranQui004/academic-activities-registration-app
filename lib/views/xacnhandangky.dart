@@ -1,3 +1,7 @@
+
+import 'package:doan/models/sinhvien.dart';
+import 'package:doan/services/cloud_service.dart';
+import 'package:doan/services/dangky_services.dart';
 import 'package:doan/models/sinhvien.dart';
 import 'package:doan/services/cloud_service.dart';
 import 'package:doan/services/dangky_services.dart';
@@ -15,7 +19,7 @@ class XacNhanDangKyScreen extends StatefulWidget {
   final bool? TrangThai;
 
   const XacNhanDangKyScreen({
-    Key? key,
+    super.key,
     this.iconCheck = Icons.help_outline,
     this.colorIcon = Colors.blueAccent,
     this.statusRegis = 'wait',
