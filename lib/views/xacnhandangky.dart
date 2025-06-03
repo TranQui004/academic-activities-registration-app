@@ -1,9 +1,10 @@
-<<<<<<< HEAD
-=======
+
 import 'package:doan/models/sinhvien.dart';
 import 'package:doan/services/cloud_service.dart';
 import 'package:doan/services/dangky_services.dart';
->>>>>>> a6a49bea26f84d8224577c60a106b8f1418debe9
+import 'package:doan/models/sinhvien.dart';
+import 'package:doan/services/cloud_service.dart';
+import 'package:doan/services/dangky_services.dart';
 import 'package:flutter/material.dart';
 import 'package:doan/main.dart';
 
@@ -22,16 +23,12 @@ class XacNhanDangKyScreen extends StatefulWidget {
     this.iconCheck = Icons.help_outline,
     this.colorIcon = Colors.blueAccent,
     this.statusRegis = 'wait',
-<<<<<<< HEAD
-  });
-=======
     required this.idSuKien,
     this.DdToChuc,
     this.TgToChuc,
     this.TenSK,
     this.TrangThai = false
   }) : super(key: key);
->>>>>>> a6a49bea26f84d8224577c60a106b8f1418debe9
 
   @override
   _XacNhanDangKyScreenState createState() => _XacNhanDangKyScreenState();

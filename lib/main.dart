@@ -1,15 +1,12 @@
 import 'package:doan/models/event.dart';
 import 'package:doan/models/sinhvien.dart';
 import 'package:doan/views/thongtindiendanh.dart';
-<<<<<<< HEAD
-=======
 import 'package:doan/views/xacnhandangky.dart';
 import 'firebase_options.dart';
 import 'views/home_page_sv.dart';
 import 'views/qr_scanner.dart';
 import 'views/login.dart';
 import 'views/student_info.dart';
->>>>>>> a6a49bea26f84d8224577c60a106b8f1418debe9
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -67,11 +64,7 @@ class MyApp extends StatelessWidget {
       title: "Ứng dụng đăng ký hoạt động",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Roboto'),
-<<<<<<< HEAD
-      home: ThongTinSVSauQuet(sv: sv,sk: sk),
-=======
       home: EventsListScreen(),
->>>>>>> a6a49bea26f84d8224577c60a106b8f1418debe9
     );
   }
 }
