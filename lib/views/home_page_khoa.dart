@@ -1,7 +1,5 @@
-import 'dart:ui';
 import 'package:doan/main.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomePageKhoa extends StatelessWidget{
   const HomePageKhoa({super.key});

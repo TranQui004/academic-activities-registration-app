@@ -1,4 +1,3 @@
-import 'package:doan/views/chitietsukien.dart';
 import 'package:flutter/material.dart';
 import 'package:doan/main.dart';
 
@@ -8,11 +7,11 @@ class XacNhanDangKyScreen extends StatefulWidget {
   final String? statusRegis;
 
   const XacNhanDangKyScreen({
-    Key? key,
+    super.key,
     this.iconCheck = Icons.help_outline,
     this.colorIcon = Colors.blueAccent,
     this.statusRegis = 'wait',
-  }) : super(key: key);
+  });
 
   @override
   _XacNhanDangKyScreenState createState() => _XacNhanDangKyScreenState();
