@@ -14,6 +14,7 @@ class SinhVien {
   final String Sdt;
   final String NienKhoa;
   final String AnhUrl;
+  final String MatKhau;
 
 
   SinhVien({
@@ -30,6 +31,7 @@ class SinhVien {
     required this.Sdt,
     required this.NienKhoa,
     required this.AnhUrl,
+    required this.MatKhau,
   });
 
   factory SinhVien.fromMap(Map<String, dynamic> map) {
@@ -46,7 +48,8 @@ class SinhVien {
       diemRenLuyen: map['DiemRenLuyen'],
       Sdt: map['Sdt'],
       NienKhoa: map['NienKhoa'],
-      AnhUrl: map['AnhUrl']
+      AnhUrl: map['AnhUrl'],
+      MatKhau: map['MatKhau']
     );
   }
 }

@@ -15,7 +15,7 @@ class _CreatingEventState extends State<CreatingEvent> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _eventNameController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
-  final TextEditingController _participantsTargetController = TextEditingController(); // Controller mới
+  final TextEditingController _participantsTargetController = TextEditingController();
   final TextEditingController _meetingLocationController = TextEditingController();
   final TextEditingController _participantsController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();

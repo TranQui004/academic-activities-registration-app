@@ -26,8 +26,9 @@ class EventDetail extends StatelessWidget {
               child: Container(
                 margin: EdgeInsets.only(bottom: 10),
                 decoration: BoxDecoration(
-                  color: Colors.grey[200],
+                  color: Colors.white,
                   image: DecorationImage(
+                    alignment: Alignment.topCenter,
                     image: event.UrlAnh != null && event.UrlAnh!.startsWith('http')
                         ? NetworkImage(event.UrlAnh!) as ImageProvider
                         : AssetImage(event.UrlAnh ?? 'assets/images/default.png'),
@@ -154,7 +155,7 @@ class EventDetail extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
                   Text(
-                    event.ThongTinThem ?? '',
+                    (event.ThongTinThem ?? '').replaceAll(r'\n', '\n'),
                     style: TextStyle(fontSize: 16),
                     textAlign: TextAlign.justify,
                   ),
@@ -177,6 +178,3 @@ class EventDetail extends StatelessWidget {
     );
   }
 }
-
-// Example usage:
-

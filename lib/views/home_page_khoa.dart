@@ -1,14 +1,33 @@
 import 'dart:ui';
 import 'package:doan/main.dart';
+import 'package:doan/models/doankhoa.dart';
+import 'package:doan/views/creating_event.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
-class HomePageKhoa extends StatelessWidget{
-  const HomePageKhoa({super.key});
+class HomePageKhoa extends StatefulWidget {
+  final DoanKhoa dk;
+  const HomePageKhoa({
+    super.key, required this.dk});
+  @override
+  State<StatefulWidget> createState() => _HomePageKhoaState();
+}
+
+
+class _HomePageKhoaState extends State<HomePageKhoa>{
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<DoanKhoaProvider>(context, listen: false).setDoanKhoa(widget.dk);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final dk = Provider.of<DoanKhoaProvider>(context).doanKhoa;
     return Scaffold(
-      appBar: AppBarBase(titleText: 'Khoa CNTT'),
+      appBar: AppBarBase(titleText: 'Trang chính'),
       body: Expanded( child: Container(
         decoration: BoxDecoration(color: AppColors.baseColor),
         child: ListView(
@@ -101,7 +120,8 @@ class HomePageKhoa extends StatelessWidget{
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
+                  GestureDetector(
+                    child: Container(
                     width: 190,
                     height: 190,
                     decoration: BoxDecoration(
@@ -128,6 +148,11 @@ class HomePageKhoa extends StatelessWidget{
                         textAlign: TextAlign.center,
                       ),
                     ),
+                  ),
+                    onTap: (){
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => CreatingEvent(),));
+                    },
                   ),
 
                   Container(
