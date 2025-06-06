@@ -120,7 +120,7 @@ class _XacNhanDangKyScreenState extends State<XacNhanDangKyScreen> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 16),
+                        SizedBox(height: SizeDevice.height - 600),
 
                         widget.TrangThai! ?
                             Center(child: Text('Bạn đã đăng ký'),)

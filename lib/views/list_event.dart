@@ -1,9 +1,13 @@
 import 'package:doan/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:doan/models/event.dart';
+import 'package:doan/models/sinhvien.dart';
 import 'package:doan/services/cloud_service.dart';
+import 'package:doan/views/chitietsukien.dart';
 import 'package:flutter/material.dart';
 import 'package:doan/views/xacnhandangky.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 // Màn hình danh sách hoạt động
 class EventsListScreen extends StatelessWidget {
@@ -117,15 +121,9 @@ class _EventListBodyState extends State<EventListBody> {
                   itemCount: filtered.length,
                   itemBuilder: (context, index) {
                     final event = filtered[index];
+                    Event e = Event.fromMap(event);
                     return EventCard(
-                      id: event['id'],
-                      title: event['TenSuKien'],
-                      date: event['TGToChuc'].toDate(),
-                      location: event['DDToChuc'],
-                      type: event['LoaiHD'],
-                      registered: event['SLDangKy'],
-                      maxParticipants: event['SLToiDa'],
-                      urlImg: event['UrlAnh'],
+                      event: e
                     );
                   },
                 );
@@ -392,30 +390,16 @@ class _SortButton extends StatelessWidget {
 
 // Card hiển thị từng hoạt động
 class EventCard extends StatelessWidget {
-  final String id;
-  final String title;
-  final DateTime date;
-  final String location;
-  final String type;
-  final int registered;
-  final int maxParticipants;
-  final String urlImg;
+  final Event event;
 
   const EventCard({
     super.key,
-    required this.id,
-    required this.title,
-    required this.date,
-    required this.location,
-    required this.type,
-    required this.registered,
-    required this.maxParticipants,
-    required this.urlImg,
+    required this.event,
   });
 
   @override
   Widget build(BuildContext context) {
-    final double progress = registered / maxParticipants;
+    final double progress = event.SLDangKy / event.SLToiDa;
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
@@ -434,19 +418,12 @@ class EventCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           EventCardHeader(
-            type: type,
-            urlImg: urlImg,
-            onInfo: () => _showDetailsDialog(context),
+            event: event,
+            onInfo: () => null, //() => _showDetailsDialog(context),
           ),
           EventCardDetails(
-            id: id,
-            title: title,
-            date: date,
-            location: location,
-            registered: registered,
-            maxParticipants: maxParticipants,
+            event: event,
             progress: progress,
-            urlImg: urlImg,
             onInfo: () => _showDetailsDialog(context),
           ),
         ],
@@ -455,13 +432,13 @@ class EventCard extends StatelessWidget {
   }
 
   void _showDetailsDialog(BuildContext context) {
-    final double progress = registered / maxParticipants;
+    final double progress = event.SLDangKy / event.SLToiDa;
     showDialog(
       context: context,
       builder:
           (context) => AlertDialog(
         title: Text(
-          title,
+          event.TenSuKien.toString(),
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             color: Color(0xFF263238),
@@ -471,15 +448,15 @@ class EventCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _dialogInfoRow(Icons.calendar_today, "Ngày: $date"),
+            _dialogInfoRow(Icons.calendar_today, "Ngày: ${event.TGToChuc}"),
             const SizedBox(height: 8),
-            _dialogInfoRow(Icons.location_on, "Địa điểm: $location"),
+            _dialogInfoRow(Icons.location_on, "Địa điểm: ${event.DDToChuc}"),
             const SizedBox(height: 8),
-            _dialogInfoRow(Icons.category, "Loại hoạt động: $type"),
+            _dialogInfoRow(Icons.category, "Loại hoạt động: ${event.LoaiHD}"),
             const SizedBox(height: 8),
             _dialogInfoRow(
               Icons.people,
-              "Số người đăng ký: $registered / $maxParticipants",
+              "Số người đăng ký: ${event.SLDangKy} / ${event.SLToiDa}",
             ),
             const SizedBox(height: 12),
             LinearProgressIndicator(
@@ -534,13 +511,11 @@ class EventCard extends StatelessWidget {
 
 // Header của card hoạt động
 class EventCardHeader extends StatelessWidget {
-  final String type;
-  final String urlImg;
+  final Event event;
   final VoidCallback onInfo;
   const EventCardHeader({
     super.key,
-    required this.type,
-    required this.urlImg,
+    required this.event,
     required this.onInfo,
   });
 
@@ -558,7 +533,7 @@ class EventCardHeader extends StatelessWidget {
       child: Stack(
         children: [
           Center(
-            child: Image.network( urlImg),
+            child: Image.network(event.UrlAnh.toString()),
           ),
           Positioned(
             left: 12,
@@ -574,7 +549,7 @@ class EventCardHeader extends StatelessWidget {
                 ),
               ),
               child: Text(
-                type,
+                event.LoaiHD.toString(),
                 style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -601,7 +576,11 @@ class EventCardHeader extends StatelessWidget {
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
-                  onTap: onInfo,
+                  onTap: (){
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => EventDetail(event: event),
+                        ));
+                  },
                   borderRadius: BorderRadius.circular(8),
                   child: Padding(
                     padding: const EdgeInsets.all(10),
@@ -623,38 +602,26 @@ class EventCardHeader extends StatelessWidget {
 
 // Chi tiết card hoạt động
 class EventCardDetails extends StatelessWidget {
-  final String id;
-  final String title;
-  final DateTime date;
-  final String location;
-  final int registered;
-  final int maxParticipants;
+  final Event event;
   final double progress;
-  final String urlImg;
   final VoidCallback onInfo;
   const EventCardDetails({
     super.key,
-    required this.id,
-    required this.title,
-    required this.date,
-    required this.location,
-    required this.registered,
-    required this.maxParticipants,
+    required this.event,
     required this.progress,
-    required this.urlImg,
     required this.onInfo,
   });
 
   @override
   Widget build(BuildContext context) {
-    // final sv = Provider.of<SinhVienProvider>(context).sinhVien!;
+    final sv = Provider.of<SinhVienProvider>(context).sinhVien!;
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            title,
+            event.TenSuKien.toString(),
             style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -668,7 +635,7 @@ class EventCardDetails extends StatelessWidget {
               Icon(Icons.calendar_today, size: 16, color: Colors.grey[600]),
               const SizedBox(width: 6),
               Text(
-                  DateFormat('dd/MM/yyyy HH:mm').format(date),
+                  DateFormat('dd/MM/yyyy HH:mm').format(event.TGToChuc),
                 style: TextStyle(color: Colors.grey[700], fontSize: 14),
               ),
               const SizedBox(width: 16),
@@ -676,7 +643,7 @@ class EventCardDetails extends StatelessWidget {
               const SizedBox(width: 6),
               Expanded(
                 child: Text(
-                  location,
+                  event.DDToChuc.toString(),
                   style: TextStyle(color: Colors.grey[700], fontSize: 14),
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -701,7 +668,7 @@ class EventCardDetails extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "$registered/$maxParticipants",
+                        "${event.SLDangKy}/${event.SLToiDa}",
                         style: TextStyle(
                           color:
                           progress >= 0.9
@@ -773,10 +740,10 @@ class EventCardDetails extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) => XacNhanDangKyScreen(
-                      idSuKien: id,
-                      TenSK: title,
-                      DdToChuc: location,
-                      TgToChuc: date,
+                      idSuKien: event.id,
+                      TenSK: event.TenSuKien,
+                      DdToChuc: event.DDToChuc,
+                      TgToChuc: event.TGToChuc,
                     ),
                   ));
                 },
