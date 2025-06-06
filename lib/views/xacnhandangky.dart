@@ -19,7 +19,7 @@ class XacNhanDangKyScreen extends StatefulWidget {
   final bool? TrangThai;
 
   const XacNhanDangKyScreen({
-    super.key,
+    Key? key,
     this.iconCheck = Icons.help_outline,
     this.colorIcon = Colors.blueAccent,
     this.statusRegis = 'wait',

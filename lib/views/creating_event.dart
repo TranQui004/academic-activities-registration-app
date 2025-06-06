@@ -15,15 +15,19 @@ class _CreatingEventState extends State<CreatingEvent> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _eventNameController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
-  final TextEditingController _participantsTargetController = TextEditingController(); // Controller mới
+  final TextEditingController _participantsTargetController = TextEditingController();
   final TextEditingController _meetingLocationController = TextEditingController();
   final TextEditingController _participantsController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _detailedDescriptionController = TextEditingController();
+  final TextEditingController _imageUrlController = TextEditingController();  final TextEditingController _pointController = TextEditingController();
   DateTime? _selectedDate;
+  DateTime? _selectedEndDate;
   TimeOfDay? _selectedStartTime;
   TimeOfDay? _selectedEndTime;
   File? _imageFile;
+  String? _imageUrl;
+  bool _isLoadingImage = false;
 
   double get deviceWidth => MediaQuery.of(context).size.width;
 
@@ -46,6 +50,20 @@ class _CreatingEventState extends State<CreatingEvent> {
     if (picked != null && picked != _selectedDate) {
       setState(() {
         _selectedDate = picked;
+      });
+    }
+  }
+
+  Future<void> _selectEndDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedEndDate ?? DateTime.now(),
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2030),
+    );
+    if (picked != null && picked != _selectedEndDate) {
+      setState(() {
+        _selectedEndDate = picked;
       });
     }
   }
@@ -100,6 +118,37 @@ class _CreatingEventState extends State<CreatingEvent> {
     }
   }
 
+  void _loadImageFromUrl() {
+    if (_imageUrlController.text.isEmpty) return;
+    setState(() {
+      _isLoadingImage = true;
+      _imageUrl = _imageUrlController.text;
+      _imageFile = null;
+    });
+    // Add image loading completion handler
+    precacheImage(NetworkImage(_imageUrlController.text), context).then((_) {
+      if (mounted) {
+        setState(() {
+          _isLoadingImage = false;
+        });
+      }
+    }).catchError((_) {
+      if (mounted) {
+        setState(() {
+          _isLoadingImage = false;
+        });
+      }
+    });
+  }
+
+  void _resetImage() {
+    setState(() {
+      _imageUrl = null;
+      _imageUrlController.clear();
+      _imageFile = null;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -132,31 +181,64 @@ class _CreatingEventState extends State<CreatingEvent> {
                   ),
                 ),
               ),
-              Align(
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        controller: _imageUrlController,
+                        decoration: InputDecoration(
+                          labelText: 'URL Ảnh',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    ElevatedButton(
+                      onPressed: _loadImageFromUrl,
+                      child: Text('Tải ảnh'),
+                    ),
+                    SizedBox(width: 10),
+                    IconButton(
+                      onPressed: _resetImage,
+                      icon: Icon(Icons.refresh),
+                      tooltip: 'Đặt lại ảnh',
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 10),              Align(
                 alignment: Alignment.topCenter,
-                child: GestureDetector(
-                  onTap: _pickImage,
-                  child: Container(
-                    height: 300,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      image: _imageFile != null
-                          ? DecorationImage(
-                              image: FileImage(_imageFile!),
-                              fit: BoxFit.cover,
+                child: Container(
+                  height: 300,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    image: (_imageUrl != null)
+                        ? DecorationImage(
+                            image: NetworkImage(_imageUrl!),
+                            fit: BoxFit.contain,
+                          )
+                        : _imageFile != null
+                            ? DecorationImage(
+                                image: FileImage(_imageFile!),
+                                fit: BoxFit.cover,
+                              )
+                            : null,
+                  ),
+                  child: _isLoadingImage
+                      ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : _imageUrl == null && _imageFile == null
+                          ? Center(
+                              child: Icon(
+                                Icons.image,
+                                size: 50,
+                                color: Colors.grey[600],
+                              ),
                             )
                           : null,
-                    ),
-                    child: _imageFile == null
-                        ? Center(
-                            child: Icon(
-                              Icons.add_a_photo,
-                              size: 50,
-                              color: Colors.grey[600],
-                            ),
-                          )
-                        : null,
-                  ),
                 ),
               ),
               Padding(
@@ -238,26 +320,54 @@ class _CreatingEventState extends State<CreatingEvent> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 10),
-                    TextFormField(
-                      readOnly: true,
-                      decoration: InputDecoration(
-                        labelText: 'Giờ kết thúc',
-                        border: OutlineInputBorder(),
-                        constraints: BoxConstraints(
-                          maxWidth: deviceWidth - 32,
+                    SizedBox(height: 10),                    Row(
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                            width: (deviceWidth / 2) - 21,
+                            child: TextFormField(
+                              readOnly: true,
+                              decoration: InputDecoration(
+                                labelText: 'Ngày kết thúc',
+                                border: OutlineInputBorder(),
+                                suffixIcon: IconButton(
+                                  icon: Icon(Icons.calendar_today),
+                                  onPressed: () => _selectEndDate(context),
+                                ),
+                              ),
+                              controller: TextEditingController(
+                                text: _selectedEndDate != null
+                                    ? '${_selectedEndDate!.day}/${_selectedEndDate!.month}/${_selectedEndDate!.year}'
+                                    : '',
+                              ),
+                              validator: (value) => _selectedEndDate == null ? 'Vui lòng chọn ngày kết thúc' : null,
+                            ),
+                          ),
                         ),
-                        suffixIcon: IconButton(
-                          icon: Icon(Icons.access_time),
-                          onPressed: () => _selectEndTime(context),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: SizedBox(
+                            width: (deviceWidth / 2) - 21,
+                            child: TextFormField(
+                              readOnly: true,
+                              decoration: InputDecoration(
+                                labelText: 'Giờ kết thúc',
+                                border: OutlineInputBorder(),
+                                suffixIcon: IconButton(
+                                  icon: Icon(Icons.access_time),
+                                  onPressed: () => _selectEndTime(context),
+                                ),
+                              ),
+                              controller: TextEditingController(
+                                text: _selectedEndTime != null
+                                    ? '${_selectedEndTime!.hour}:${_selectedEndTime!.minute}'
+                                    : '',
+                              ),
+                              validator: (value) => _selectedEndTime == null ? 'Vui lòng chọn giờ kết thúc' : null,
+                            ),
+                          ),
                         ),
-                      ),
-                      controller: TextEditingController(
-                        text: _selectedEndTime != null
-                            ? '${_selectedEndTime!.hour}:${_selectedEndTime!.minute}'
-                            : '',
-                      ),
-                      validator: (value) => _selectedEndTime == null ? 'Vui lòng chọn giờ kết thúc' : null,
+                      ],
                     ),
                     SizedBox(height: 10),
                     Row(
@@ -290,8 +400,7 @@ class _CreatingEventState extends State<CreatingEvent> {
                           ),
                         ),
                       ],
-                    ),
-                    SizedBox(height: 10),
+                    ),                    SizedBox(height: 10),
                     Row(
                       children: [
                         Expanded(
@@ -324,7 +433,21 @@ class _CreatingEventState extends State<CreatingEvent> {
                         ),
                       ],
                     ),
+                    SizedBox(height: 10),
+                    TextFormField(
+                      controller: _pointController,
+                      decoration: InputDecoration(
+                        labelText: 'Điểm dự kiến',
+                        border: OutlineInputBorder(),
+                        constraints: BoxConstraints(
+                          maxWidth: deviceWidth - 32,
+                        ),
+                      ),
+                      keyboardType: TextInputType.number,
+                      validator: _validateNotEmpty,
+                    ),
                     
+                   
                     SizedBox(height: 10),
                     TextFormField(
                       controller: _detailedDescriptionController,
@@ -337,16 +460,7 @@ class _CreatingEventState extends State<CreatingEvent> {
                       ),
                       maxLines: 8,
                       validator: _validateNotEmpty,
-                    ),
-                    SizedBox(height: 20),
-                    Center(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          _submitForm();
-                        },
-                        child: Text('Lưu sự kiện'),
-                      ),
-                    ),
+                    ),                    SizedBox(height: 20),
                   ],
                 ),
               ),
