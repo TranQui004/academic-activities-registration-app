@@ -1,12 +1,7 @@
 import 'dart:convert';
-
 import 'package:doan/models/doankhoa.dart';
 import 'package:doan/models/sinhvien.dart';
-import 'package:doan/views/ds_sv_dangky.dart';
-import 'package:doan/views/tracuusukien.dart';
-import 'package:doan/views/chitietsukien.dart';
 import 'package:doan/views/creating_event.dart';
-import 'package:doan/views/home_page_khoa.dart';
 import 'package:doan/views/thongtindiendanh.dart';
 import 'package:doan/views/xacnhandangky.dart';
 import 'firebase_options.dart';
@@ -15,10 +10,6 @@ import 'views/qr_scanner.dart';
 import 'views/login.dart';
 import 'views/student_info.dart';
 import 'package:flutter/material.dart';
-import 'package:doan/views/list_event.dart';
-import 'package:doan/views/event_management.dart';
-import 'package:doan/views/student_card.dart';
-import 'package:doan/views/login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -82,7 +73,7 @@ class AppColors {
 
 class AppBarBase extends StatelessWidget implements PreferredSizeWidget {
   final String titleText;
-  const AppBarBase({Key? key, required this.titleText}) : super(key: key);
+  const AppBarBase({super.key, required this.titleText});
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -451,10 +442,10 @@ class CircleProgressWidget extends StatelessWidget {
   final int valueMax;
 
   const CircleProgressWidget({
-    Key? key,
+    super.key,
     required this.valueCurrent,
     required this.valueMax,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -499,14 +490,14 @@ class LineProgressWidget extends StatelessWidget {
   final int valueMax;
 
   const LineProgressWidget({
-    Key? key,
+    super.key,
     required this.valueCurrent,
     required this.valueMax,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Stack(
         alignment: Alignment.center,
