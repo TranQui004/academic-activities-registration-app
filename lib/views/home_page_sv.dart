@@ -229,11 +229,12 @@ class _MyHomePageSv extends State<HomePageSv> {
                     ),
                     alignment: Alignment.center,
                     child: Container(
-                      width: 370,
+                      height: 200,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
                         color: Colors.black.withOpacity(0.6),
                       ),
+                      alignment: Alignment.center,
                       child: Padding(
                         padding: EdgeInsets.all(24),
                         child: Text(
@@ -275,11 +276,12 @@ class _MyHomePageSv extends State<HomePageSv> {
                   ),
                   alignment: Alignment.center,
                   child: Container(
-                    width: 370,
+                    height: 200,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
                       color: Colors.black.withOpacity(0.6),
                     ),
+                    alignment: Alignment.center,
                     child: Padding(
                       padding: EdgeInsets.all(24),
                       child: Text(

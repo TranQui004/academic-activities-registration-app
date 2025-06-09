@@ -8,23 +8,24 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:provider/provider.dart';
 
-class CreatingEvent extends StatefulWidget {
-  const CreatingEvent({super.key});
+class CapNhatSuKien extends StatefulWidget {
+  final Event? event;
+  const CapNhatSuKien({super.key, required this.event});
 
   @override
-  _CreatingEventState createState() => _CreatingEventState();
+  _CapNhatSuKienState createState() => _CapNhatSuKienState();
 }
 
-class _CreatingEventState extends State<CreatingEvent> {
+class _CapNhatSuKienState extends State<CapNhatSuKien> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _eventNameController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _participantsTargetController = TextEditingController();
-  final TextEditingController _meetingLocationController = TextEditingController();
   final TextEditingController _participantsController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _detailedDescriptionController = TextEditingController();
   final TextEditingController _imageUrlController = TextEditingController();
+  String? _meetingLocationController;
   DateTime? _selectedDate;
   DateTime? _selectedEndDate;
   TimeOfDay? _selectedStartTime;
@@ -121,12 +122,12 @@ class _CreatingEventState extends State<CreatingEvent> {
   Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
       Event newEv = Event(
-          id: "0",
+          id: widget.event!.id,
           DDToChuc: _locationController.text,
           DoiTuong: _participantsTargetController.text,
           DonViToChuc: Provider.of<DoanKhoaProvider>(context, listen: false).doanKhoa!.TenDK,
           HDChinh: "",
-          LoaiHD: _meetingLocationController.text,
+          LoaiHD: _meetingLocationController,
           MoTa: _descriptionController.text,
           SLDangKy: 0,
           SLToiDa: int.parse(_participantsController.text),
@@ -137,7 +138,7 @@ class _CreatingEventState extends State<CreatingEvent> {
           UrlAnh: _imageUrlController.text
       );
       print(newEv);
-      await CloudService().addEvent(newEv);
+      await CloudService().capNhatEvent(newEv);
     }
   }
 
@@ -170,6 +171,46 @@ class _CreatingEventState extends State<CreatingEvent> {
       _imageUrlController.clear();
       _imageFile = null;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _eventNameController.text = widget.event!.TenSuKien ?? '';
+    _locationController.text = widget.event!.DDToChuc ?? '';
+    _participantsTargetController.text = widget.event!.SLToiDa.toString() ?? '';
+    _meetingLocationController = widget.event!.LoaiHD ?? '';
+    _participantsController.text = widget.event!.SLDangKy?.toString() ?? '';
+    _descriptionController.text = widget.event!.MoTa ?? '';
+    _detailedDescriptionController.text = widget.event!.ThongTinThem ?? '';
+    _imageUrlController.text = widget.event!.UrlAnh ?? '';
+
+    _selectedDate = widget.event!.TGToChuc;
+    _selectedEndDate = widget.event!.TGKetThuc;
+    if (widget.event!.TGToChuc != null) {
+      _selectedStartTime = TimeOfDay.fromDateTime(widget.event!.TGToChuc!);
+    }
+    if (widget.event!.TGKetThuc != null) {
+      _selectedEndTime = TimeOfDay.fromDateTime(widget.event!.TGKetThuc!);
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _loadImageFromUrl();
+  }
+
+  @override
+  void dispose() {
+    _eventNameController.dispose();
+    _locationController.dispose();
+    _participantsTargetController.dispose();
+    _participantsController.dispose();
+    _descriptionController.dispose();
+    _detailedDescriptionController.dispose();
+    _imageUrlController.dispose();
+    super.dispose();
   }
 
   @override
@@ -218,29 +259,29 @@ class _CreatingEventState extends State<CreatingEvent> {
                     color: Colors.grey[200],
                     image: (_imageUrl != null)
                         ? DecorationImage(
-                            image: NetworkImage(_imageUrl!),
-                            fit: BoxFit.contain,
-                          )
+                      image: NetworkImage(_imageUrl!),
+                      fit: BoxFit.contain,
+                    )
                         : _imageFile != null
-                            ? DecorationImage(
-                                image: FileImage(_imageFile!),
-                                fit: BoxFit.cover,
-                              )
-                            : null,
+                        ? DecorationImage(
+                      image: FileImage(_imageFile!),
+                      fit: BoxFit.cover,
+                    )
+                        : null,
                   ),
                   child: _isLoadingImage
                       ? Center(
-                          child: CircularProgressIndicator(),
-                        )
+                    child: CircularProgressIndicator(),
+                  )
                       : _imageUrl == null && _imageFile == null
-                          ? Center(
-                              child: Icon(
-                                Icons.image,
-                                size: 50,
-                                color: Colors.grey[600],
-                              ),
-                            )
-                          : null,
+                      ? Center(
+                    child: Icon(
+                      Icons.image,
+                      size: 50,
+                      color: Colors.grey[600],
+                    ),
+                  )
+                      : null,
                 ),
               ),
               Padding(
@@ -409,7 +450,7 @@ class _CreatingEventState extends State<CreatingEvent> {
                           child: SizedBox(
                             width: (deviceWidth / 2) - 21,
                             child: DropdownButtonFormField<String>(
-                              value: _meetingLocationController.text.isNotEmpty ? _meetingLocationController.text : null,
+                              value: _meetingLocationController,
                               decoration: InputDecoration(
                                 labelText: 'Loại hoạt động',
                                 border: OutlineInputBorder(),
@@ -424,7 +465,7 @@ class _CreatingEventState extends State<CreatingEvent> {
                               onChanged: (String? newValue) {
                                 setState(() {
                                   if (newValue != null) {
-                                    _meetingLocationController.text = newValue;
+                                    _meetingLocationController = newValue;
                                   }
                                 });
                               },
@@ -448,8 +489,8 @@ class _CreatingEventState extends State<CreatingEvent> {
                         ),
                       ],
                     ),
-                    
-                   
+
+
                     SizedBox(height: 10),
                     TextFormField(
                       controller: _detailedDescriptionController,
@@ -475,7 +516,7 @@ class _CreatingEventState extends State<CreatingEvent> {
           _submitForm();
         },
         label: const Text(
-          'Tạo sự kiện',
+          'Cập nhật sự kiện',
           style: TextStyle(
             color: AppColors.textWhite,
             fontSize: 18,

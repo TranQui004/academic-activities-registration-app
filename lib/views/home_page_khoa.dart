@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doan/main.dart';
 import 'package:doan/models/doankhoa.dart';
+import 'package:doan/models/event.dart';
+import 'package:doan/services/cloud_service.dart';
 import 'package:doan/views/creating_event.dart';
+import 'package:doan/views/event_management.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -15,11 +19,50 @@ class HomePageKhoa extends StatefulWidget {
 
 
 class _HomePageKhoaState extends State<HomePageKhoa>{
+  Event? e;
+
   @override
   void initState() {
+    super.initState();
+    loadSK();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<DoanKhoaProvider>(context, listen: false).setDoanKhoa(widget.dk);
     });
+
+  }
+
+  Future<void> loadSK() async{
+    Event? ev = await CloudService().layEventGanNhat();
+    if(ev!=null){
+      setState(() {
+        e = ev;
+      });
+    }
+  }
+
+  String dinhDangThoiGianSukien(DateTime tg) {
+    final now = DateTime.now();
+
+    final today = DateTime(now.year, now.month, now.day);
+    final inputDay = DateTime(tg.year, tg.month, tg.day);
+
+    final diffDays = inputDay.difference(today).inDays;
+
+    if (diffDays == 0) {
+      if (tg.isAfter(now)) {
+        return 'Sắp diễn ra';
+      } else {
+        return 'Đã diễn ra';
+      }
+    } else if (diffDays == 1) {
+      return 'Ngày mai';
+    } else {
+      return '${tg.day.toString().padLeft(2, '0')}/'
+          '${tg.month.toString().padLeft(2, '0')}/'
+          '${tg.year} - '
+          '${tg.hour.toString().padLeft(2, '0')}:'
+          '${tg.minute.toString().padLeft(2, '0')}';
+    }
   }
 
   @override
@@ -27,7 +70,8 @@ class _HomePageKhoaState extends State<HomePageKhoa>{
     final dk = Provider.of<DoanKhoaProvider>(context).doanKhoa;
     return Scaffold(
       appBar: AppBarBase(titleText: 'Trang chính'),
-      body: Expanded( child: Container(
+      body: e == null ? Center(child: CircularProgressIndicator(),) :
+      Expanded( child: Container(
         decoration: BoxDecoration(color: AppColors.baseColor),
         child: ListView(
           children: [
@@ -47,7 +91,7 @@ class _HomePageKhoaState extends State<HomePageKhoa>{
                     Positioned(
                       top: 20,
                       right: 30,
-                      child: CircleProgressWidget(valueCurrent: 270, valueMax: 300),
+                      child: CircleProgressWidget(valueCurrent: e!.SLDangKy, valueMax: e!.SLToiDa),
                     ),
 
                     Positioned(
@@ -63,7 +107,7 @@ class _HomePageKhoaState extends State<HomePageKhoa>{
 
                     Positioned(
                       top: 20,
-                      left: 30,
+                      left: 20,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -75,7 +119,7 @@ class _HomePageKhoaState extends State<HomePageKhoa>{
                             ),
                           ),
                           SizedBox(width: 202,
-                            child: Text('Seminar AI của tương lai Seminar dhuhdjhduheu AI của tương lai',
+                            child: Text(e!.TenSuKien ?? '',
                               style: TextStyle(
                                 fontSize: 18,
                                 color: AppColors.textBlack,
@@ -89,9 +133,9 @@ class _HomePageKhoaState extends State<HomePageKhoa>{
                     ),
 
                     Positioned(
-                      left: 30,
+                      left: 20,
                       top: 130,
-                      child: Text('Tình trạng: Sắp bắt đầu',
+                      child: Text('Tình trạng: ${dinhDangThoiGianSukien(e!.TGToChuc)}',
                         style: TextStyle(
                           color: AppColors.primary,
                           fontSize: 14,
@@ -100,12 +144,87 @@ class _HomePageKhoaState extends State<HomePageKhoa>{
                     ),
 
                     Positioned(
-                      left: 30,
+                      left: 20,
                       top: 160,
                       child: Container(
                         height: 1,
                         width: 150,
                         color: AppColors.primary,
+                      ),
+                    ),
+
+                    Positioned(
+                      top: 170,
+                      child: Container(
+                        height: 120,
+                        width: SizeDevice.width,
+                        child: StreamBuilder<QuerySnapshot>(
+                          stream: CloudService().get5Events(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+
+                            if (!snapshot.hasData ||
+                                snapshot.data!.docs.isEmpty) {
+                              return Center(child: Text('Không có sự kiện'));
+                            }
+
+                            final events = snapshot.data!.docs;
+
+                            return GridView.builder(
+                              padding: EdgeInsets.all(12),
+                              scrollDirection: Axis.horizontal,
+                              gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 1,
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 10,
+                                childAspectRatio: 2 / 3,
+                              ),
+                              itemCount: events.length,
+                              itemBuilder: (context, index) {
+                                final data =
+                                events[index].data()
+                                as Map<String, dynamic>;
+                                final ten = data['TenSuKien'] ?? 'Không tên';
+                                final ngay =
+                                (data['TGToChuc'] as Timestamp).toDate();
+
+                                return Container(
+                                  width: 200,
+                                  padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    color: Colors.lightBlue[50],
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(
+                                      color: Colors.blueAccent,
+                                    ),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        ten,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(height: 8),
+                                      Text(
+                                        'Ngày: ${ngay.day}/${ngay.month}/${ngay.year}',
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ],
@@ -154,7 +273,7 @@ class _HomePageKhoaState extends State<HomePageKhoa>{
                     },
                   ),
 
-                  Container(
+                  GestureDetector(child: Container(
                     width: 190,
                     height: 190,
                     decoration: BoxDecoration(
@@ -182,6 +301,10 @@ class _HomePageKhoaState extends State<HomePageKhoa>{
                       ),
                     ),
                   ),
+                  onTap: (){
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => EventManagementScreen(),));
+                  },),
                 ],
               ),
             ),

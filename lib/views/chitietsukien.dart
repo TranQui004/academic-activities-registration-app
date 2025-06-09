@@ -1,4 +1,5 @@
 import 'package:doan/models/event.dart';
+import 'package:doan/views/xacnhandangky.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:doan/main.dart';
@@ -26,7 +27,6 @@ class EventDetail extends StatelessWidget {
               child: Container(
                 margin: EdgeInsets.only(bottom: 10),
                 decoration: BoxDecoration(
-                  color: Colors.white,
                   image: DecorationImage(
                     alignment: Alignment.topCenter,
                     image: event.UrlAnh != null && event.UrlAnh!.startsWith('http')
@@ -167,7 +167,16 @@ class EventDetail extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+        Navigator.push(context, MaterialPageRoute(
+          builder: (context) => XacNhanDangKyScreen(
+            idSuKien: event.id,
+            TenSK: event.TenSuKien,
+            DdToChuc: event.DDToChuc,
+            TgToChuc: event.TGToChuc,
+            ),
+          ));
+        },
         label: const Text(
           'Đăng Ký',
           style: TextStyle(color: AppColors.textWhite, fontSize: 18),

@@ -321,7 +321,7 @@ class _LoginViewState extends State<LoginView> {
 
                       SizedBox(height: 12),
                       Text(
-                        'Đồ án môn học: Ứng dụng đăng ký hoạt động Seminar, đoàn đội.',
+                        'Ứng dụng đăng ký hoạt động Seminar, đoàn đội.',
                         style: TextStyle(
                           color: AppColors.textWhite,
                           fontSize: 16,

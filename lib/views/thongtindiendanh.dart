@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:doan/services/cloud_service.dart';
+import 'package:doan/services/dangky_services.dart';
 import 'package:flutter/material.dart';
 import 'package:doan/main.dart';
 import 'package:doan/models/event.dart';
@@ -87,10 +89,37 @@ class ThongTinSVSauQuet extends StatelessWidget {
                           const SizedBox(height: 30),
                           Center(
                             child: ElevatedButton.icon(
-                              onPressed: () {
-                                // TODO: Xử lý điểm danh
+                              onPressed: () async {
+                                print('🛎️');
+                                bool r = await DangKyService().XuLyDiemDanh(eventId: sk.id, mssv: sv.mssv);
+                                print(r);
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext content)
+                                    {return AlertDialog(
+                                      title: Text('Thông báo điểm danh', style: TextStyle(fontSize: 14),),
+                                      content: Text(
+                                        r ? '✅Chúc mừng bạn điểm danh thành công✅' :
+                                        '❌Điểm danh thất bại\nKhông tìm thấy trong danh sách đăng ký❌',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(
+                                              context,
+                                            ).pop();
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text('OK'),
+                                        ),
+                                      ],
+                                    );}
+                                );
                               },
-                              icon: const Icon(Icons.check_circle_outline),
+                              icon: const Icon(Icons.check_circle_outline, color: Colors.white,),
                               label: const Text(
                                 "ĐIỂM DANH NGAY",
                                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),

@@ -67,6 +67,32 @@ class DangKyService {
     }
   }
 
+  Future<bool> XuLyDiemDanh({
+    required String eventId,
+    required String mssv,
+  }) async {
+    try {
+      DocumentReference dangKyRef = _firestore
+          .collection('events')
+          .doc(eventId)
+          .collection('DangKy')
+          .doc(mssv);
+
+      DocumentSnapshot snapshot = await dangKyRef.get();
+      if (snapshot.exists) {
+        await dangKyRef.update({'status': 'Đã điểm danh'});
+        return true;
+      } else {
+        print('Không tìm thấy đăng ký của $mssv trong sự kiện $eventId');
+        throw Exception('Sinh viên không tồn tại trong danh sách đăng ký');
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
+
+
   Future<List<Map<String, dynamic>>> getDangKyByEventId(String eventId) async {
     try {
       QuerySnapshot querySnapshot = await _firestore

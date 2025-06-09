@@ -1,38 +1,51 @@
 import 'package:doan/main.dart';
+import 'package:doan/models/event.dart';
+import 'package:doan/models/sv_dangky.dart';
+import 'package:doan/services/cloud_service.dart';
+import 'package:doan/views/taoqrdiemdanh.dart';
 import 'package:flutter/material.dart';
 
-class SVDangKy{
-    final String MSSV;
-    final String HoTen;
-    final String Lop;
-    final String TinhTrang;
-    SVDangKy({
-        required this.MSSV,
-        required this.HoTen,
-        required this.Lop,
-        required this.TinhTrang,
-    });
-}
-
-
 class DSSinhVienThamGia extends StatefulWidget{
-    const DSSinhVienThamGia({super.key});
+    final Event idSK;
+
+    DSSinhVienThamGia({
+        super.key,
+        required this.idSK
+    });
+
     @override
-    State<StatefulWidget> createState() => _DSSinhVienThamGiaState();
+    _DSSinhVienThamGiaState createState() => _DSSinhVienThamGiaState();
 }
 
 class _DSSinhVienThamGiaState extends State<DSSinhVienThamGia>{
-    
-    List<SVDangKy> dsDangKy = [
-        SVDangKy(MSSV: '2001224715', HoTen: 'Nguyễn Văn Thành', Lop: '13DHTH06', TinhTrang: 'Đăng ký'),
-    ];
+    List<SVDangKy>? dsDangKy;
+
+    @override
+    void initState() {
+        super.initState();
+        loadDSDV();
+    }
+
+    Future<void> loadDSDV () async {
+        try {
+            final data = await CloudService().LayDanhSachDangKy(widget.idSK.id);
+            if (mounted) {
+                setState(() {
+                    dsDangKy = data;
+                });
+            }
+        } catch (e) {
+            print("Lỗi khi load dữ liệu: $e");
+        }
+    }
 
     @override
     Widget build(BuildContext context) {
         return Scaffold(
             appBar: AppBarBase(titleText: 'Danh sách tham gia'),
 
-            body: SingleChildScrollView(
+            body: dsDangKy == null ? Center(child: CircularProgressIndicator(),) :
+            SingleChildScrollView(
                 child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Padding(padding: EdgeInsets.all(12),
@@ -56,7 +69,9 @@ class _DSSinhVienThamGiaState extends State<DSSinhVienThamGia>{
                                         ),
                                         SizedBox(width: 12,),
                                         ElevatedButton(
-                                            onPressed: (){},
+                                            onPressed: (){
+
+                                            },
                                             style: ElevatedButton.styleFrom(
                                                 shape: RoundedRectangleBorder(
                                                     borderRadius: BorderRadius.circular(12)
@@ -69,6 +84,24 @@ class _DSSinhVienThamGiaState extends State<DSSinhVienThamGia>{
                                             ],)
                                         ),
                                     ],
+                                ),
+                                SizedBox(height: 6),
+                                ElevatedButton(
+                                    onPressed: (){
+                                        Navigator.push(context, 
+                                            MaterialPageRoute(builder: (context) => QRCodePage(event: widget!.idSK!),)
+                                        );
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(12)
+                                        )
+                                    ),
+                                    child: Row(children: [
+                                        Icon(Icons.qr_code),
+                                        SizedBox(width: 4,),
+                                        Text('Tạo QR điểm danh')
+                                    ],)
                                 ),
                                 SizedBox(height: 12),
                                 DataTable(
@@ -89,37 +122,25 @@ class _DSSinhVienThamGiaState extends State<DSSinhVienThamGia>{
 
     List<DataColumn> _createColumns () {
         return [
-            DataColumn(label: Center(
-                child: Text('STT'),
-            )),
-            DataColumn(label: GestureDetector(
-                onTap: null,
-                child: Text('MSSV'),
-            )),
-            DataColumn(label: GestureDetector(
-                onTap: null,
-                child: Text('Họ và Tên'),
-            )),
-            DataColumn(label: GestureDetector(
-                onTap: null,
-                child: Text('Lớp'),
-            )),
-            DataColumn(label: GestureDetector(
-                onTap: null,
-                child: Text('Tình trạng'),
-            )),
+            DataColumn(label: Text('STT')),
+            DataColumn(label: Text('MSSV')),
+            DataColumn(label: Text('Họ và Tên')),
+            DataColumn(label: Text('Lớp')),
+            DataColumn(label: Text('Thời gian đăng ký')),
+            DataColumn(label: Text('Tình trạng')),
         ];
     }
 
     List<DataRow> _createRows () {
         var i = 0;
-        return dsDangKy.map((e){
+        return dsDangKy!.map((e){
             i++;
             return DataRow(cells: [
                 DataCell(Center(child: Text(i.toString()))),
                 DataCell(Text(e.MSSV.toString())),
                 DataCell(Text(e.HoTen.toString())),
                 DataCell(Text(e.Lop.toString())),
+                DataCell(Text(e.TGDangKy.toString())),
                 DataCell(Text(e.TinhTrang.toString())),
             ]);
         }).toList();

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Event {
   final String id;
   final String? DDToChuc;
@@ -48,5 +50,29 @@ class Event {
       ThongTinThem: map['ThongTinThem'],
       UrlAnh: map['UrlAnh']
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'DDToChuc': DDToChuc,
+      'DoiTuong': DoiTuong,
+      'DonViToChuc': DonViToChuc,
+      'HDChinh': HDChinh,
+      'LoaiHD': LoaiHD,
+      'MoTa': MoTa,
+      'SLDangKy': SLDangKy,
+      'SLToiDa': SLToiDa,
+      'TGKetThuc': _toTimestamp(TGKetThuc),
+      'TGToChuc': _toTimestamp(TGToChuc),
+      'TenSuKien': TenSuKien,
+      'ThongTinThem': ThongTinThem,
+      'UrlAnh': UrlAnh,
+    };
+  }
+
+  static dynamic _toTimestamp(DateTime? dateTime) {
+    if (dateTime == null) return null;
+    return Timestamp.fromDate(dateTime);
   }
 }

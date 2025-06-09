@@ -4,6 +4,7 @@ import 'package:doan/models/event.dart';
 import 'package:doan/models/sinhvien.dart';
 import 'package:doan/services/cloud_service.dart';
 import 'package:doan/views/chitietsukien.dart';
+import 'package:doan/views/thongtindiendanh.dart';
 import 'package:flutter/material.dart';
 import 'package:doan/views/xacnhandangky.dart';
 import 'package:intl/intl.dart';
@@ -31,7 +32,7 @@ class EventListBody extends StatefulWidget {
 }
 
 class _EventListBodyState extends State<EventListBody> {
-  bool isAscending = true;
+  bool isAscending = false;
   String searchQuery = '';
   String selectedType = 'Tất cả';
   final TextEditingController _searchController = TextEditingController();
@@ -60,8 +61,8 @@ class _EventListBodyState extends State<EventListBody> {
           filtered.where((event) => event['LoaiHD'] == selectedType).toList();
     }
     filtered.sort((a, b) {
-      final dateA = _parseDate(a['date']);
-      final dateB = _parseDate(b['date']);
+      final dateA = _parseDate(a['TGToChuc']);
+      final dateB = _parseDate(b['TGToChuc']);
       return isAscending ? dateA.compareTo(dateB) : dateB.compareTo(dateA);
     });
     return filtered;
@@ -738,12 +739,18 @@ class EventCardDetails extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
+                  // Navigator.push(context, MaterialPageRoute(
+                  //   builder: (context) => XacNhanDangKyScreen(
+                  //     idSuKien: event.id,
+                  //     TenSK: event.TenSuKien,
+                  //     DdToChuc: event.DDToChuc,
+                  //     TgToChuc: event.TGToChuc,
+                  //   ),
+                  // ));
                   Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => XacNhanDangKyScreen(
-                      idSuKien: event.id,
-                      TenSK: event.TenSuKien,
-                      DdToChuc: event.DDToChuc,
-                      TgToChuc: event.TGToChuc,
+                    builder: (context) => ThongTinSVSauQuet(
+                      sv: sv,
+                      sk: event,
                     ),
                   ));
                 },

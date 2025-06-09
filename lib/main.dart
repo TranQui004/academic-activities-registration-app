@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'package:doan/models/doankhoa.dart';
 import 'package:doan/models/sinhvien.dart';
 import 'package:doan/views/creating_event.dart';
+import 'package:doan/views/event_management.dart';
+import 'package:doan/views/home_page_khoa.dart';
+import 'package:doan/views/student_card.dart';
 import 'package:doan/views/thongtindiendanh.dart';
 import 'package:doan/views/xacnhandangky.dart';
 import 'firebase_options.dart';
@@ -221,7 +224,7 @@ class DrawerBase extends StatelessWidget {
                       //list item drawer
                       TextButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => HomePageSv(sv: sv,),));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => BarcodeScannerPage(),));
                         },
                         style: TextButton.styleFrom(
                           alignment: Alignment.centerLeft,
@@ -392,7 +395,10 @@ class DrawerBaseKhoa extends StatelessWidget {
                       ),
                       //list item drawer
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => EventManagementScreen(),));
+                        },
                         style: TextButton.styleFrom(
                           alignment: Alignment.centerLeft,
                         ),
@@ -424,7 +430,7 @@ class DrawerBaseKhoa extends StatelessWidget {
             left: 10,
             right: 10,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () async{await LogOut(context);},
               child: Text(
                 'Đăng xuất',
                 style: TextStyle(color: Colors.red, fontSize: 18),
