@@ -95,13 +95,13 @@ Dự án được tổ chức rõ ràng với 3 thư mục chính trong `lib/`:
 *   ThS. Vũ Văn Vinh
 
 **Sinh viên thực hiện:**
-1.  2001221146 – Lăng Minh Hải – 13DHTH03
+1.  Lăng Minh Hải – 13DHTH03
     *   Phân công: Tạo giao diện và xử lý chức năng lịch sử hoạt động, thông tin sinh viên, xác nhận đăng ký, thông tin sau quét QR.
-2.  2001223968 – Trần Trọng Quí – 13DHTH03
+2.  Trần Trọng Quí – 13DHTH03
     *   Phân công: Tạo giao diện và xử lý các chức năng trong danh sách sự kiện.
-3.  2001224715 – Nguyễn Văn Thành – 13DHTH03
+3.  Nguyễn Văn Thành – 13DHTH03
     *   Phân công: Quản lý tiến độ, tổng hợp, chỉnh sửa giao diện và chức năng, xử lý đăng nhập, QR code, xử lý đăng ký sự kiện.
-4.  2001224936 – Nguyễn Hoành Thịnh – 13DHTH03
+4.  Nguyễn Hoành Thịnh – 13DHTH03
     *   Phân công: Tạo giao diện và xử lý chức năng chi tiết sự kiện, quản lý sự kiện.
 
 ## Liên hệ
